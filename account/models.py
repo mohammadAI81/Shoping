@@ -15,5 +15,8 @@ class CustomUser(AbstractUser):
     city = models.CharField(max_length=255, blank=True)
     # image = models.ImageField(upload_to='/cover/profile/', blank=True, null=True)
     # Favorites
+    
+    def __str__(self):
+        return self.username
 
 
