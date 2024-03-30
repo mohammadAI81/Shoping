@@ -36,8 +36,18 @@
                 <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Pages</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="login.html">Login</a></li>
-                  <li class="nav-item"><a class="nav-link" href="register.html">Register</a></li>
+                  {% if user.is_authenticated %}
+                  <form action="{% url 'logout' %}" method="post">
+                    {% csrf_token %}
+                    <button type="submit">
+                      <li class="nav-item"><a class="nav-link" type="submit" >Logout</a></li>
+                    </button>
+                  </form>
+                  <li class="nav-item"><a class="nav-link center" >{{ user.username|upper }}</a></li>
+                  {% else %}
+                  <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'account:signup' %}">Sign Up</a></li>
+                  {% endif %}
                   <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
               </li>
