@@ -49,19 +49,15 @@
                         {% csrf_token %}
                         {{from.as_p}}
                         <div class="col-md-12 form-group">
-                            <!-- <input type="text" class="form-control" id="name" name="name" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'"> -->
                             {{ form.username }}
                         </div>
                         <div class="col-md-12 form-group">
-                            <!-- <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'"> -->
                             {{ form.email }}
                         </div>
                         <div class="col-md-12 form-group">
-                            <!-- <input type="text" class="form-control" id="password" name="password" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'"> -->
                             {{ form.password1 }}
                         </div>
                         <div class="col-md-12 form-group">
-                            <!-- <input type="text" class="form-control" id="confirmPassword" name="confirmPassword" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'"> -->
                             {{ form.password2 }}
                         </div>
                         <div class="col-md-12 form-group">

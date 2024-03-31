@@ -5,10 +5,10 @@ from django import forms
 class SignupForm(UserCreationForm):
     
     password1 = forms.CharField(label='Password',
-            widget=forms.PasswordInput(attrs={'class': "form-control", 'id': "password", 'name': "password1",
+            widget=forms.PasswordInput(attrs={'class': "form-control", 'id': "password", 
             'placeholder': "Password", 'onfocus': "this.placeholder = ''", 'onblur': "this.placeholder = 'Password'"}))
     password2 = forms.CharField(label='Confirm Password',
-            widget=forms.PasswordInput(attrs={'class': "form-control", 'id': "confirmPassword", 'name': "password2",
+            widget=forms.PasswordInput(attrs={'class': "form-control", 'id': "confirmPassword", 
             'placeholder': "Confirm Password", 'onfocus': "this.placeholder = ''", 'onblur': "this.placeholder = 'Confirm Password'"}))
     
     class Meta:
@@ -16,8 +16,8 @@ class SignupForm(UserCreationForm):
         fields = ('username', 'email')
         
         widgets = {
-            'username': forms.TextInput(attrs={'class': "form-control", 'id': "name", 'name': "username",
+            'username': forms.TextInput(attrs={'class': "form-control", 'id': "name", 
              'placeholder': "Username", 'onfocus': "this.placeholder = ''", 'onblur': "this.placeholder = 'Username'"}),
-            'email': forms.TextInput(attrs={'type': 'email', 'class': "form-control", 'id': "email", 'name': "email",
+            'email': forms.TextInput(attrs={'type': 'email', 'class': "form-control", 'id': "email", 
              'placeholder': "Email Address", 'onfocus': "this.placeholder = ''", 'onblur': "this.placeholder = 'Email Address'"})
         }
