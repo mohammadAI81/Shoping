@@ -53,6 +53,11 @@ class ProductAdmin(admin.ModelAdmin):
     list_filter = ('category', 'discount', 'availability')
     list_per_page = 35
     ordering = ('name', 'category')
+    fieldsets = (
+        (None, {'fields': ['name', 'description', 'inventory', 'price', 'slug',
+                           'availability', 'width', 'height', 'weight', 'brand',
+                           'color', 'category', 'discount', 'discount_price']}),
+    )
     inlines = [
         CommentProduct,
     ]

@@ -1,5 +1,22 @@
 from django.shortcuts import render
+from django.db.models import Count
 from django.views.generic import ListView, DetailView
 
+from .models import Category, Like, Color, Comment, Product, Brand
 
-# Create your views here.
+
+class ListProductCategory(ListView):
+    paginate_by = 12
+    queryset = Product.objects.select_related('category').all()
+    template_name = 'store/products.html'
+    context_object_name = 'products'
+
+    def get_context_data(self, **kwargs):
+        context = super().get_context_data(**kwargs)
+        context['categories'] = Category.objects.all().annotate(num_product=Count('product'))
+        context['brands'] = Brand.objects.all().annotate(num_product=Count('product'))
+        context['colors'] = Color.objects.all().annotate(num_product=Count('product'))
+        return context
+
+
+# class
