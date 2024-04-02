@@ -1,3 +1,5 @@
+from typing import Any
+from django.db.models.query import QuerySet
 from django.shortcuts import render
 from django.db.models import Count
 from django.views.generic import ListView, DetailView
@@ -19,4 +21,9 @@ class ListProductCategory(ListView):
         return context
 
 
-# class
+class DetailProduct(DetailView):
+    queryset = Product.objects.select_related('category', 'brand', 'color')
+    template_name = 'store/product.html'
+    context_object_name = 'product'
+    slug_field = 'slug'
+    slug_url_kwarg = 'slug'

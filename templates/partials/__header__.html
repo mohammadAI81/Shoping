@@ -38,7 +38,7 @@
                 <ul class="dropdown-menu">
                   {% if user.is_authenticated %}
                   <li class="nav-item"><a class="nav-link" href="{% url 'account:logout' %}">Logout</a></li>
-                  <li class="nav-item"><a class="nav-link center" >{{ user.username|upper }}</a></li>
+                  <li class="nav-item"><a class="nav-link center" >{{ user.username|title}}</a></li>
                   {% else %}
                   <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'account:signup' %}">Sign Up</a></li>

@@ -126,7 +126,7 @@
                                         <div class="card-product__img">
                                             <img class="card-img" src="{% static 'img\product\product1.png' %}" alt="">
                                             <ul class="card-product__imgOverlay">
-                                                {#                        <li><button><i class="ti-search"></i></button></li>#}
+                                                <li><button><i class="ti-search"></i></button></li>
                                                 <li>
                                                     <button><i class="ti-shopping-cart"></i></button>
                                                 </li>
@@ -137,7 +137,8 @@
                                         </div>
                                         <div class="card-body">
                                             <p>{{ product.category|title }}</p>
-                                            <h4 class="card-product__title"><a href="#">{{ product.name|title }}</a>
+                                            <h4 class="card-product__title">
+                                                <a href="{% url 'store:product' product.slug %}">{{ product.name|title }}</a>
                                             </h4>
                                             <p class="card-product__price">${{ product.price }}</p>
                                         </div>
