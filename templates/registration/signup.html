@@ -47,18 +47,17 @@
                     <h3>Create an account</h3>
                     <form class="row login_form" action="{% url 'account:signup' %}" id="register_form" method="POST" aria-disabled="true">
                         {% csrf_token %}
-                        {{from.as_p}}
                         <div class="col-md-12 form-group">
-                            {{ form.username }}
+                            <input type="text" class="form-control" id="name" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
                         </div>
                         <div class="col-md-12 form-group">
-                            {{ form.email }}
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Email Address" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Email Address'">
                         </div>
                         <div class="col-md-12 form-group">
-                            {{ form.password1 }}
+                            <input type="password" class="form-control" id="password1" name="password1" placeholder="Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Password'">
                         </div>
                         <div class="col-md-12 form-group">
-                            {{ form.password2 }}
+                            <input type="password" class="form-control" id="confirmPassword" name="password2" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
                         </div>
                         <div class="col-md-12 form-group">
                             <div class="creat_account">

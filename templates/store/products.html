@@ -34,17 +34,18 @@
                         <div class="head">Browse Categories</div>
                         <ul class="main-categories">
                             <li class="common-filter">
-                                <form action="#">
+                                <!-- <form action="{% url 'store:products' %}"> -->
                                     <ul>
                                         {% for category in categories %}
-                                            <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                                           id="{{ category.name|lower }}"
-                                                                           name="category">
-                                                <label for="men">{{ category.name }}<span> ({{ category.num_product }})</span></label>
+                                            <li class="filter-list"><a href="{% url 'store:products' %}?category={{ category }}"
+                                                style="color: #777;">
+                                                {{ category.name }}
+                                                <span> ({{ category.num_product }})</span>
+                                                </a>
                                             </li>
                                         {% endfor %}
                                     </ul>
-                                </form>
+                                <!-- </form> -->
                             </li>
                         </ul>
                     </div>
@@ -52,27 +53,46 @@
                         <div class="top-filter-head">Product Filters</div>
                         <div class="common-filter">
                             <div class="head">Brands</div>
-                            <form action="#">
+                            <form action="{% url 'store:products' %}">
                                 <ul>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio"
+                                                                   id="brand" name="brand" value="" checked>
+                                        <label for="brand">All</label>
+                                    </li>
                                     {% for brand in brands %}
                                         <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                                       id="{{ brand.name|lower }}" name="brand">
-                                            <label for="{{ brand.name|lower }}">{{ brand.name }}<span> ({{ brand.num_product }})</span></label>
+                                                                       id="brand" name="brand" value="{{ brand }}"
+                                        {% if values.brand == brand.name  %}
+                                            checked
+                                        {% endif %}
+                                        >
+                                            <label for="brand">{{ brand.name }}<span> ({{ brand.num_product }})</span></label>
                                         </li>
                                     {% endfor %}
                                 </ul>
-                            </form>
                         </div>
                         <div class="common-filter">
                             <div class="head">Color</div>
-                            <form action="#">
                                 <ul>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio"
+                                                                   id="color" name="color" value="" checked>
+                                        <label for="color">All</label>
                                     {% for color in colors %}
                                         <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                                       id="{{ color.name|lower }}" name="color">
-                                            <label for="{{ color.name|lower }}">{{ color.name }}<span> ({{ color.num_product }})</span></label>
+                                                                       id="color" name="color" value="{{ color }}"
+                                                                        {% if values.color == color.name  %}
+                                                                            checked
+                                                                       {% endif %}>
+
+                                            <label for="color">{{ color.name }}<span> ({{ color.num_product }})</span></label>
                                         </li>
                                     {% endfor %}
+                                    <hr>
+                                    <li class="filter-list">
+                                        <button class="button button-login" type="submit">
+                                            Filter
+                                        </button>
+                                    </li>
                                 </ul>
                             </form>
                         </div>

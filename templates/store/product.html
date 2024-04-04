@@ -51,9 +51,9 @@
 						<ul class="list">
 							<li><a class="active" href="#"><span>Category</span> : {{ product.category.name }}</a></li>
                             {% if product.availability %}
-							<li><a href="#"><span>Availibility</span> : In Stock</a></li>
+							<li><a href="#"><span>Availability</span> : In Stock</a></li>
                             {% else %}
-							<li><a href="#"><span>Availibility</span> : Un Stock</a></li>
+							<li><a href="#"><span>Availability</span> : Un Stock</a></li>
                             {% endif %}
 						</ul>
 						<p>Mill Oil is an innovative oil filled radiator with the most modern technology. If you are looking for
@@ -70,7 +70,11 @@
 						</div>
 						<div class="card_area d-flex align-items-center">
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
+                            {% if num_like == 0  %}
 							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
+                            {% else %}
+							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a><span>{{ num_like }}</span>
+                            {% endif %}
 						</div>
 					</div>
 				</div>

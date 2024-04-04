@@ -12,7 +12,8 @@ class Signup(CreateView):
     template_name = 'registration/signup.html'
     form_class = SignupForm
     success_url = reverse_lazy('login')
-    
+
+
 def logout(request):
     if request.user.is_authenticated:
         auth.logout(request)
