@@ -3,6 +3,7 @@ from django.db.models import Count
 from django.views.generic import ListView, DetailView
 
 from .models import Category, Like, Color, Comment, Product, Brand
+from .variable import SHOW, SORT
 
 
 class ListProductCategory(ListView):
@@ -20,6 +21,12 @@ class ListProductCategory(ListView):
             context['products'] = context['products'].filter(brand__name=brand)
         if color := request_get.get('color'):
             context['products'] = context['products'].filter(color__name=color)
+        if sort := request_get.get('sort'):
+            context['products'] = context['products'].order_by(sort)
+
+        # For Sort & Show Num Paginator
+        context['sorts'] = SORT
+        context['shows'] = SHOW
 
         # Count Of Category & Brand & Color
         context['categories'] = Category.objects.all().annotate(num_product=Count('product'))

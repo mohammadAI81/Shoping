@@ -35,25 +35,27 @@
                         <ul class="main-categories">
                             <li class="common-filter">
                                 <!-- <form action="{% url 'store:products' %}"> -->
-                                    <ul>
-                                        {% for category in categories %}
-                                            <li class="filter-list"><a href="{% url 'store:products' %}?category={{ category }}"
+                                <ul>
+                                    {% for category in categories %}
+                                        <li class="filter-list"><a
+                                                href="{% url 'store:products' %}?category={{ category }}"
                                                 style="color: #777;">
-                                                {{ category.name }}
-                                                <span> ({{ category.num_product }})</span>
-                                                </a>
-                                            </li>
-                                        {% endfor %}
-                                    </ul>
+                                            {{ category.name }}
+                                            <span> ({{ category.num_product }})</span>
+                                        </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
                                 <!-- </form> -->
                             </li>
                         </ul>
                     </div>
                     <div class="sidebar-filter">
                         <div class="top-filter-head">Product Filters</div>
-                        <div class="common-filter">
-                            <div class="head">Brands</div>
-                            <form action="{% url 'store:products' %}">
+                        <form action="{% url 'store:products' %}" id="filter">
+                            {% csrf_token %}
+                            <div class="common-filter">
+                                <div class="head">Brands</div>
                                 <ul>
                                     <li class="filter-list"><input class="pixel-radio" type="radio"
                                                                    id="brand" name="brand" value="" checked>
@@ -62,68 +64,58 @@
                                     {% for brand in brands %}
                                         <li class="filter-list"><input class="pixel-radio" type="radio"
                                                                        id="brand" name="brand" value="{{ brand }}"
-                                        {% if values.brand == brand.name  %}
-                                            checked
-                                        {% endif %}
-                                        >
+                                                {% if values.brand == brand.name %}
+                                                                       checked
+                                                {% endif %}>
                                             <label for="brand">{{ brand.name }}<span> ({{ brand.num_product }})</span></label>
                                         </li>
                                     {% endfor %}
                                 </ul>
-                        </div>
-                        <div class="common-filter">
-                            <div class="head">Color</div>
+                            </div>
+                            <div class="common-filter">
+                                <div class="head">Color</div>
                                 <ul>
                                     <li class="filter-list"><input class="pixel-radio" type="radio"
                                                                    id="color" name="color" value="" checked>
                                         <label for="color">All</label>
-                                    {% for color in colors %}
-                                        <li class="filter-list"><input class="pixel-radio" type="radio"
-                                                                       id="color" name="color" value="{{ color }}"
-                                                                        {% if values.color == color.name  %}
-                                                                            checked
-                                                                       {% endif %}>
+                                        {% for color in colors %}
+                                            <li class="filter-list"><input class="pixel-radio" type="radio"
+                                                                           id="color" name="color" value="{{ color }}"
+                                                    {% if values.color == color.name %}
+                                                                           checked
+                                                    {% endif %}>
 
-                                            <label for="color">{{ color.name }}<span> ({{ color.num_product }})</span></label>
-                                        </li>
-                                    {% endfor %}
-                                    <hr>
-                                    <li class="filter-list">
-                                        <button class="button button-login" type="submit">
-                                            Filter
-                                        </button>
-                                    </li>
+                                                <label for="color">{{ color.name }}<span> ({{ color.num_product }})</span></label>
+                                            </li>
+                                        {% endfor %}
                                 </ul>
-                            </form>
-                        </div>
-                        <div class="common-filter">
-                            <div class="head">Price</div>
-                            <form action="#">
-                                <ul>
-                                    <li class="filter-list">
-                                        <input class="pixel-radio" type="radio" id="price" name="price">
-                                        <label for="price"><span>200.000 $</span></label>
-                                    </li>
-                                </ul>
-                            </form>
-                        </div>
+                            </div>
+                            <div class="common-filter container">
+                                <button class="button btn-sm mt-3" type="submit">Filter</button>
+                            </div>
+                        </form>
                     </div>
                 </div>
                 <div class="col-xl-9 col-lg-8 col-md-7">
                     <!-- Start Filter Bar -->
                     <div class="filter-bar d-flex flex-wrap align-items-center">
-                        <div class="sorting">
-                            <select name="sort">
-                                <option value="1">Default sorting</option>
-                                <option value="1">Default sorting</option>
-                                <option value="1">Default sorting</option>
-                            </select>
-                        </div>
+                        <!-- <form action="{% url 'store:products' %}">
+                            {% csrf_token %} -->
+                            <div class="sorting">
+                                <select name="sort" form="filter">
+                                    {% for key, sort in sorts %}
+                                        <option value="{{ key }}"
+                                        {% if values.sort == key %} selected {% endif %}
+                                        >sorting {{ sort }}</option>
+                                    {% endfor %}
+                                </select>
+                            </div>
+                        <!-- </form> -->
                         <div class="sorting mr-auto">
                             <select name="page_num">
-                                <option value="1">Show 12</option>
-                                <option value="1">Show 12</option>
-                                <option value="1">Show 12</option>
+                                {% for show in shows %}
+                                    <option value="{{ show }}">Show {{ show }}</option>
+                                {% endfor %}
                             </select>
                         </div>
                         <div>
@@ -139,55 +131,43 @@
                     <!-- Start Best Seller -->
                     <section class="lattest-product-area pb-40 category-list">
                         <div class="row">
-                            {% for product in products %}
-                                <div class="col-md-6 col-lg-4">
+                            {% if products %}
+                                {% for product in products %}
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card text-center card-product">
+                                            <div class="card-product__img">
+                                                <img class="card-img" src="{% static 'img\product\product1.png' %}"
+                                                     alt="">
+                                                <ul class="card-product__imgOverlay">
+                                                    <li>
+                                                        <button><i class="ti-search"></i></button>
+                                                    </li>
+                                                    <li>
+                                                        <button><i class="ti-shopping-cart"></i></button>
+                                                    </li>
+                                                    <li>
+                                                        <button><i class="ti-heart"></i></button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ product.category|title }}</p>
+                                                <h4 class="card-product__title">
+                                                    <a href="{% url 'store:product' product.slug %}">{{ product.name|title }}</a>
+                                                </h4>
+                                                <p class="card-product__price">${{ product.price }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-md-6">
+                                    <h3 class="card-product__title">
+                                        No Products Found
+                                    </h3>
 
-                                    <div class="card text-center card-product">
-                                        <div class="card-product__img">
-                                            <img class="card-img" src="{% static 'img\product\product1.png' %}" alt="">
-                                            <ul class="card-product__imgOverlay">
-                                                <li><button><i class="ti-search"></i></button></li>
-                                                <li>
-                                                    <button><i class="ti-shopping-cart"></i></button>
-                                                </li>
-                                                <li>
-                                                    <button><i class="ti-heart"></i></button>
-                                                </li>
-                                            </ul>
-                                        </div>
-                                        <div class="card-body">
-                                            <p>{{ product.category|title }}</p>
-                                            <h4 class="card-product__title">
-                                                <a href="{% url 'store:product' product.slug %}">{{ product.name|title }}</a>
-                                            </h4>
-                                            <p class="card-product__price">${{ product.price }}</p>
-                                        </div>
-                                    </div>
                                 </div>
-                            {% endfor %}
-                            <div class="col-md-6 col-lg-4">
-                                <div class="card text-center card-product">
-                                    <div class="card-product__img">
-                                        <img class="card-img" src="img/product/product2.png" alt="">
-                                        <ul class="card-product__imgOverlay">
-                                            <li>
-                                                <button><i class="ti-search"></i></button>
-                                            </li>
-                                            <li>
-                                                <button><i class="ti-shopping-cart"></i></button>
-                                            </li>
-                                            <li>
-                                                <button><i class="ti-heart"></i></button>
-                                            </li>
-                                        </ul>
-                                    </div>
-                                    <div class="card-body">
-                                        <p>Beauty</p>
-                                        <h4 class="card-product__title"><a href="#">Women Freshwash</a></h4>
-                                        <p class="card-product__price">$150.00</p>
-                                    </div>
-                                </div>
-                            </div>
+                            {% endif %}
                         </div>
                     </section>
                     <!-- End Best Seller -->
