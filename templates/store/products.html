@@ -7,7 +7,7 @@
 
 {% block content %}
     <!-- ================ start banner area ================= -->
-    <section class="blog-banner-area" id="category">
+    <!-- <section class="blog-banner-area" id="category">
         <div class="container h-100">
             <div class="blog-banner">
                 <div class="text-center">
@@ -21,7 +21,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section> -->
     <!-- ================ end banner area ================= -->
 
 
@@ -34,7 +34,6 @@
                         <div class="head">Browse Categories</div>
                         <ul class="main-categories">
                             <li class="common-filter">
-                                <!-- <form action="{% url 'store:products' %}"> -->
                                 <ul>
                                     {% for category in categories %}
                                         <li class="filter-list"><a
@@ -46,14 +45,12 @@
                                         </li>
                                     {% endfor %}
                                 </ul>
-                                <!-- </form> -->
                             </li>
                         </ul>
                     </div>
                     <div class="sidebar-filter">
                         <div class="top-filter-head">Product Filters</div>
                         <form action="{% url 'store:products' %}" id="filter">
-                            {% csrf_token %}
                             <div class="common-filter">
                                 <div class="head">Brands</div>
                                 <ul>
@@ -99,22 +96,23 @@
                 <div class="col-xl-9 col-lg-8 col-md-7">
                     <!-- Start Filter Bar -->
                     <div class="filter-bar d-flex flex-wrap align-items-center">
-                        <!-- <form action="{% url 'store:products' %}">
-                            {% csrf_token %} -->
-                            <div class="sorting">
-                                <select name="sort" form="filter">
-                                    {% for key, sort in sorts %}
-                                        <option value="{{ key }}"
-                                        {% if values.sort == key %} selected {% endif %}
-                                        >sorting {{ sort }}</option>
-                                    {% endfor %}
-                                </select>
-                            </div>
-                        <!-- </form> -->
+                        {% csrf_token %}
+                        <div class="sorting">
+                            <select name="sort" form="filter">
+                                {% for key, sort in sorts %}
+                                    <option value="{{ key }}"
+                                            {% if values.sort == key %} selected {% endif %}>sorting {{ sort }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
                         <div class="sorting mr-auto">
-                            <select name="page_num">
+                            <select name="page_num" form="filter">
                                 {% for show in shows %}
-                                    <option value="{{ show }}">Show {{ show }}</option>
+                                    <option value="{{ show }}"
+                                        {% if num == show  %} selected 
+                                        {% endif %}
+                                        {% if num == None  %} selected
+                                        {% endif %}>Show {{ show }}</option>
                                 {% endfor %}
                             </select>
                         </div>
@@ -168,7 +166,44 @@
 
                                 </div>
                             {% endif %}
+
                         </div>
+                        {% if is_paginated %}
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?page={{ page_obj.previous_page_number }}&num={{ num }}" class="page-link"
+                                               aria-label="Previous">
+                                              <span aria-hidden="true">
+                                                  <i class="fa fa-arrow-left"></i>
+                                              </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    <li class="page-item">
+                                        <a href="#" class="page-link">01</a>
+                                    </li>
+                                    <li class="page-item active">
+                                        <a href="?page={{ page_obj.number }}&num={{ num }}"
+                                           class="page-link">{{ page_obj.number }}</a>
+                                    </li>
+                                    <li class="page-item">
+                                        <a href="#" class="page-link">03</a>
+                                    </li>
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a href="?page={{ page_obj.next_page_number }}&num={{ num }}" class="page-link"
+                                               aria-label="Next">
+                                              <span aria-hidden="true">
+                                                  <i class="fa fa-arrow-right"></i>
+                                              </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %}
                     </section>
                     <!-- End Best Seller -->
                 </div>

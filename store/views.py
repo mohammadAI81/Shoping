@@ -1,39 +1,61 @@
 from django.shortcuts import render
-from django.db.models import Count
-from django.views.generic import ListView, DetailView
+from django.db.models import Count, Q
+from django.views.generic import DetailView, ListView
+from django.core.paginator import Paginator
 
 from .models import Category, Like, Color, Comment, Product, Brand
 from .variable import SHOW, SORT
 
 
-class ListProductCategory(ListView):
-    queryset = Product.objects.select_related('category', 'color', 'brand').all()
-    template_name = 'store/products.html'
-    context_object_name = 'products'
+def ListProductCategory(request):
+    products = Product.objects.select_related('category', 'color', 'brand')
+    request_get = request.GET
 
-    def get_context_data(self, **kwargs):
-        context = super().get_context_data(**kwargs)
-        # For Filter
-        request_get = self.request.GET
-        if category := request_get.get('category'):
-            context['products'] = context['products'].filter(category__name=category)
-        if brand := request_get.get('brand'):
-            context['products'] = context['products'].filter(brand__name=brand)
-        if color := request_get.get('color'):
-            context['products'] = context['products'].filter(color__name=color)
-        if sort := request_get.get('sort'):
-            context['products'] = context['products'].order_by(sort)
+    # For Filter
+    if sort := request_get.get('sort'):
+        products = products.order_by(sort)
 
-        # For Sort & Show Num Paginator
-        context['sorts'] = SORT
-        context['shows'] = SHOW
+    category = request_get.get('category')
+    brand = request_get.get('brand')
+    color = request_get.get('color')
+    if category or brand or color:
+        # products = products.filter(Q(category__name=category) | (Q(brand__name=brand) | Q(color__name=color)))
+        q_objects = Q()
+        if category:
+            q_objects |= Q(category__name=category)
+        if brand:
+            q_objects &= Q(brand__name=brand)
+        if color:
+            q_objects &= Q(color__name=color)
+        products = products.filter(q_objects)
+    
+    context = {'products': products}
+    context['num'] = request_get.get('page_num')
+     
+    if context['num'] is None:
+        context['num'] = request_get.get('num')
+    page_num = request_get.get('page',)
+    if page_num or context['num']:
+        if context['num'] != 'All':
+            paginator = Paginator(products, context['num'])
+            products = paginator.get_page(page_num)
+            context['page_obj'] = products
+            context['is_paginated'] = products.has_other_pages()
 
-        # Count Of Category & Brand & Color
-        context['categories'] = Category.objects.all().annotate(num_product=Count('product'))
-        context['brands'] = Brand.objects.all().annotate(num_product=Count('product'))
-        context['colors'] = Color.objects.all().annotate(num_product=Count('product'))
-        context['values'] = request_get
-        return context
+    
+    context['products'] = products
+    
+    # For Sort & Show Num Paginator
+    context['sorts'] = SORT
+    context['shows'] = SHOW
+
+    # Count Of Category & Brand & Color
+    context['categories'] = Category.objects.all().annotate(num_product=Count('product'))
+    context['brands'] = Brand.objects.all().annotate(num_product=Count('product'))
+    context['colors'] = Color.objects.all().annotate(num_product=Count('product'))
+    context['values'] = request_get
+
+    return render(request, 'store/products.html', context) 
 
 
 class DetailProduct(DetailView):

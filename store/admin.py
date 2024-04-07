@@ -52,7 +52,7 @@ class ProductAdmin(admin.ModelAdmin):
     list_editable = ('inventory', 'price', 'discount')
     list_filter = ('category', 'discount', 'availability')
     list_per_page = 35
-    ordering = ('name', 'category')
+    ordering = ('datetime_created', )
     fieldsets = (
         (None, {'fields': ['name', 'description', 'inventory', 'price', 'slug',
                            'availability', 'width', 'height', 'weight', 'brand',
