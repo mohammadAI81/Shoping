@@ -168,9 +168,10 @@
                             {% endif %}
 
                         </div>
-                        {% if is_paginated %}
+                        {% if page_obj.has_other_pages %}
                             <nav class="blog-pagination justify-content-center d-flex">
                                 <ul class="pagination">
+                                    
                                     {% if page_obj.has_previous %}
                                         <li class="page-item">
                                             <a href="?page={{ page_obj.previous_page_number }}&num={{ num }}" class="page-link"
@@ -181,16 +182,18 @@
                                             </a>
                                         </li>
                                     {% endif %}
-                                    <li class="page-item">
-                                        <a href="#" class="page-link">01</a>
-                                    </li>
+                                    {% for i in page_obj.paginator.page_range %}
+                                    {% if i == page_obj.number %}
                                     <li class="page-item active">
-                                        <a href="?page={{ page_obj.number }}&num={{ num }}"
-                                           class="page-link">{{ page_obj.number }}</a>
+                                        <a href="?page={{ i }}&num={{ num }}"
+                                        class="page-link">{{ i }}</a>
                                     </li>
+                                    {% else %}
                                     <li class="page-item">
-                                        <a href="#" class="page-link">03</a>
+                                        <a href="?page{{ i }}&num={{ num }}" class="page-link">{{ i }}</a>
                                     </li>
+                                    {% endif %}
+                                    {% endfor %}
                                     {% if page_obj.has_next %}
                                         <li class="page-item">
                                             <a href="?page={{ page_obj.next_page_number }}&num={{ num }}" class="page-link"

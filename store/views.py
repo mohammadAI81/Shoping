@@ -19,7 +19,6 @@ def ListProductCategory(request):
     brand = request_get.get('brand')
     color = request_get.get('color')
     if category or brand or color:
-        # products = products.filter(Q(category__name=category) | (Q(brand__name=brand) | Q(color__name=color)))
         q_objects = Q()
         if category:
             q_objects |= Q(category__name=category)
@@ -30,17 +29,17 @@ def ListProductCategory(request):
         products = products.filter(q_objects)
     
     context = {'products': products}
-    context['num'] = request_get.get('page_num')
-     
+    
+    # Pagination
+    context['num'] = request_get.get('page_num')   
+    page_num = request_get.get('page')
     if context['num'] is None:
         context['num'] = request_get.get('num')
-    page_num = request_get.get('page',)
     if page_num or context['num']:
         if context['num'] != 'All':
             paginator = Paginator(products, context['num'])
             products = paginator.get_page(page_num)
             context['page_obj'] = products
-            context['is_paginated'] = products.has_other_pages()
 
     
     context['products'] = products

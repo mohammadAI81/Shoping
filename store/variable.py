@@ -3,4 +3,4 @@ SORT = [('name', 'Name'),
         ('category', 'Category'), 
         ('brand', 'Brand'), 
         ('color', 'Color'), ]
-SHOW = ['1', '15', '20', '25', '30', 'All']
+SHOW = ['10', '15', '20', '25', '30', 'All']
