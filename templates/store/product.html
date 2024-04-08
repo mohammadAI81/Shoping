@@ -4,12 +4,12 @@
 
 
 {% block title %}
-    {{ product.name|title }}
+	{{ product.name|title }}
 {% endblock title %}
 
 {% block content %}
     	<!-- ================ start banner area ================= -->	
-	<section class="blog-banner-area" id="blog">
+	<!-- <section class="blog-banner-area" id="blog">
 		<div class="container h-100">
 			<div class="blog-banner">
 				<div class="text-center">
@@ -23,7 +23,7 @@
 				</div>
 			</div>
     </div>
-	</section>
+	</section> -->
 	<!-- ================ end banner area ================= -->
 
 
@@ -60,12 +60,8 @@
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
 							during the winter.</p>
 						<div class="product_count">
-              <label for="qty">Quantity:</label>
-              				<!-- <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-							 class="increase items-count" type="button"><i class="ti-angle-left"></i></button> -->
+              				<label for="qty">Quantity:</label>
 							<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-							<!-- <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
-               				class="reduced items-count" type="button"><i class="ti-angle-right"></i></button> -->
 							<a class="button primary-btn" href="#">Add to Cart</a>               
 						</div>
 						<div class="card_area d-flex align-items-center">
@@ -228,25 +224,32 @@
 						<div class="col-lg-6">
 							<div class="review_box">
 								<h4>Post a comment</h4>
-								<form class="row contact_form" action="contact_process.php" method="post" id="contactForm" novalidate="novalidate">
-									<div class="col-md-12">
+								<form class="row contact_form" action="{% url 'store:product' product.slug %}" method="POST" id="contactForm" novalidate="novalidate">
+									{% csrf_token %}
+									<!-- <div class="col-md-12">
 										<div class="form-group">
 											<input type="text" class="form-control" id="name" name="name" placeholder="Your Full name">
 										</div>
-									</div>
+									</div> -->
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="email" class="form-control" id="email" name="email" placeholder="Email Address">
+											<select name="rating">
+													{% for key, rating in ratings %}
+													<option value="{{ key }}">{{ rating }}</option>
+													{% endfor %}
+											</select>
+										</div>
+									</div>
+									<div class="col-md-12 mt-3">
+										<div class="form-group">
+											<textarea class="form-control" name="body" 
+											id="message" rows="5" cols="30" placeholder="Message"></textarea>
 										</div>
 									</div>
 									<div class="col-md-12">
 										<div class="form-group">
-											<input type="text" class="form-control" id="number" name="number" placeholder="Phone Number">
-										</div>
-									</div>
-									<div class="col-md-12">
-										<div class="form-group">
-											<textarea class="form-control" name="message" id="message" rows="1" placeholder="Message"></textarea>
+											<input type="checkbox" name="published" id="pub">
+											<label for="pub">Published</label>
 										</div>
 									</div>
 									<div class="col-md-12 text-right">
@@ -260,32 +263,6 @@
 				<div class="tab-pane fade show active" id="review" role="tabpanel" aria-labelledby="review-tab">
 					<div class="row">
 						<div class="col-lg-6">
-							<div class="row total_rate">
-								<div class="col-6">
-									<div class="box_total">
-										<h5>Overall</h5>
-										<h4>4.0</h4>
-										<h6>(03 Reviews)</h6>
-									</div>
-								</div>
-								<div class="col-6">
-									<div class="rating_list">
-										<h3>Based on 3 Reviews</h3>
-										<ul class="list">
-											<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-											<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-													 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-										</ul>
-									</div>
-								</div>
-							</div>
 							<div class="review_list">
 								<div class="review_item">
 									<div class="media">
@@ -345,33 +322,32 @@
 						</div>
 						<div class="col-lg-6">
 							<div class="review_box">
-								<h4>Add a Review</h4>
-								<p>Your Rating:</p>
-								<ul class="list">
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-									<li><a href="#"><i class="fa fa-star"></i></a></li>
-								</ul>
-								<p>Outstanding</p>
-                <form action="#/" class="form-contact form-review mt-3">
-                  <div class="form-group">
-                    <input class="form-control" name="name" type="text" placeholder="Enter your name" required>
-                  </div>
-                  <div class="form-group">
-                    <input class="form-control" name="email" type="email" placeholder="Enter email address" required>
-                  </div>
-                  <div class="form-group">
-                    <input class="form-control" name="subject" type="text" placeholder="Enter Subject">
-                  </div>
-                  <div class="form-group">
-                    <textarea class="form-control different-control w-100" name="textarea" id="textarea" cols="30" rows="5" placeholder="Enter Message"></textarea>
-                  </div>
-                  <div class="form-group text-center text-md-right mt-3">
-                    <button type="submit" class="button button--active button-review">Submit Now</button>
-                  </div>
-                </form>
+								<div class="row total_rate">
+									<div class="col-6">
+										<div class="box_total">
+											<h5>Overall</h5>
+											<h4>4.0</h4>
+											<h6>(03 Reviews)</h6>
+										</div>
+									</div>
+									<div class="col-6">
+										<div class="rating_list">
+											<h3>Based on 3 Reviews</h3>
+											<ul class="list">
+												<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+												<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+												<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+												<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+												<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
+														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+											</ul>
+										</div>
+									</div>
+								</div>
 							</div>
 						</div>
 					</div>
