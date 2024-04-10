@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static filters %}
 
 
 
@@ -174,21 +174,23 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="comment_list">
+								{% for comment in comments %}
 								<div class="review_item">
 									<div class="media">
 										<div class="d-flex">
 											<img src="img/product/review-1.png" alt="">
 										</div>
 										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<h5>12th Feb, 2018 at 05:56 pm</h5>
+											<h4>{{ comment.author.username|title }}</h4>
+											<h5>{{ comment.datetime_created|date:'jS M, Y \a\t f A' }}</h5>
 											<a class="reply_btn" href="#">Reply</a>
 										</div>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
+									<p>{{ comment.body|linebreaks }}</p>
 								</div>
+								{% empty %}
+								<h3>Do't have comments</h3>
+								{% endfor %}
 								<div class="review_item reply">
 									<div class="media">
 										<div class="d-flex">
@@ -264,24 +266,26 @@
 					<div class="row">
 						<div class="col-lg-6">
 							<div class="review_list">
+								{% for comment in comments %}
 								<div class="review_item">
 									<div class="media">
 										<div class="d-flex">
 											<img src="img/product/review-1.png" alt="">
 										</div>
 										<div class="media-body">
-											<h4>Blake Ruiz</h4>
+											<h4>{{ comment.author.username }}</h4>
+											{% for _ in comment.rating|to_list %}
 											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
+											{% endfor %}
 										</div>
 									</div>
 									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
 										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
 										commodo</p>
 								</div>
+								{% empty %}
+								<h3>Do't have reviews</h3>
+								{% endfor %}
 								<div class="review_item">
 									<div class="media">
 										<div class="d-flex">
@@ -327,23 +331,21 @@
 										<div class="box_total">
 											<h5>Overall</h5>
 											<h4>4.0</h4>
-											<h6>(03 Reviews)</h6>
+											<h6>({{ comments.count }} Reviews)</h6>
 										</div>
 									</div>
 									<div class="col-6">
 										<div class="rating_list">
-											<h3>Based on 3 Reviews</h3>
+											<h3>Based on {{ comments.count }} Reviews</h3>
 											<ul class="list">
 												<li><a href="#">5 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+														 class="fa fa-star"></i><i class="fa fa-star"></i> {{ number5 }}</a></li>
 												<li><a href="#">4 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-												<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-												<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
-												<li><a href="#">1 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i><i
-														 class="fa fa-star"></i><i class="fa fa-star"></i> 01</a></li>
+														 class="fa fa-star"></i> {{ number4 }}</a></li>
+												<li><a href="#">3 Star <i class="fa fa-star"></i><i class="fa fa-star"></i><i class="fa fa-star"></i>
+														 {{ number3 }}</a></li>
+												<li><a href="#">2 Star <i class="fa fa-star"></i><i class="fa fa-star"></i> {{ number2 }}</a></li>
+												<li><a href="#">1 Star <i class="fa fa-star"></i> {{ number1 }}</a></li>
 											</ul>
 										</div>
 									</div>

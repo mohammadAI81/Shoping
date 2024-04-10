@@ -1,14 +1,14 @@
 from django.shortcuts import render, redirect
+from django.http import HttpResponse
 from django.urls import reverse_lazy
 from django.db.models import Count, Q
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Category, Like, Color, Comment, Product, Brand
 from .variable import SHOW, SORT
 from .forms import CommentForm
-
 
 
 def list_product_category(request):
@@ -65,13 +65,25 @@ class DetailProduct(LoginRequiredMixin, DetailView):
     context_object_name = 'product'
     slug_field = 'slug'
     slug_url_kwarg = 'slug'
-    login_url = reverse_lazy('/account/login/')
+    login_url = 'login'
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         context['num_like'] = context['product'].likes.count()
         context['ratings'] = Comment.RATING_CHOICES
-        context['commetns'] = context['product'].comments.all()
+        comments = context['comments'] = context['product'].comments.all()
+        context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,0,0,0,0]
+        for item in comments:
+            if item.rating == '1':
+                context['number1'] += 1
+            elif item.rating == '2':
+                context['number2'] += 1
+            elif item.rating == '3':
+                context['number3'] += 1
+            elif item.rating == '4':
+                context['number4'] += 1
+            else: 
+                context['number5'] += 1
         return context
 
     def post(self, request, *args, **kwargs):
@@ -83,5 +95,7 @@ class DetailProduct(LoginRequiredMixin, DetailView):
         if form.is_valid():
             form.save()
             return redirect('store:product', product.slug)
+        else:
+            return HttpResponse('Not Correct')
     
     
