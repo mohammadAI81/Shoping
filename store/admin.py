@@ -32,7 +32,7 @@ class ColorAdmin(admin.ModelAdmin):
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
     list_display = ('author', 'product', 'rating', 'published')
-    list_editable = ('product', 'published')
+    list_editable = ('product', 'rating', 'published')
     list_filter = ('published', 'rating')
     list_per_page = 25
     ordering = ('datetime_created', )

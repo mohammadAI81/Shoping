@@ -71,8 +71,12 @@ class DetailProduct(LoginRequiredMixin, DetailView):
         context = super().get_context_data(**kwargs)
         context['num_like'] = context['product'].likes.count()
         context['ratings'] = Comment.RATING_CHOICES
+        
+        # Start Comments
         comments = context['comments'] = context['product'].comments.all()
         context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,0,0,0,0]
+
+        sum_start = 0
         for item in comments:
             if item.rating == '1':
                 context['number1'] += 1
@@ -83,7 +87,11 @@ class DetailProduct(LoginRequiredMixin, DetailView):
             elif item.rating == '4':
                 context['number4'] += 1
             else: 
-                context['number5'] += 1
+                context['number5'] += 1 
+            sum_start += int(item.rating)
+            
+        context['ave_starts'] = round(sum_start / len(comments), 1)      
+        
         return context
 
     def post(self, request, *args, **kwargs):

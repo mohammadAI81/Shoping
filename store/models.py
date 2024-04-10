@@ -62,11 +62,11 @@ class Product(models.Model):
 
 class Comment(models.Model):
     RATING_CHOICES = [
-        ('5', 'Very Bad'),
-        ('4', 'Bad'),
+        ('1', 'Very Bad'),
+        ('2', 'Bad'),
         ('3', 'Normal'),
-        ('2', 'Good'),
-        ('1', 'Very Good'),
+        ('4', 'Good'),
+        ('5', 'Very Good'),
     ]
 
     email = models.EmailField()
