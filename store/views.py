@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponse
+from django.http import HttpResponseBadRequest
 from django.urls import reverse_lazy
 from django.db.models import Count, Q
-from django.views.generic import DetailView
+from django.views.generic import DetailView, CreateView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -69,11 +69,13 @@ class DetailProduct(LoginRequiredMixin, DetailView):
 
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
-        context['num_like'] = context['product'].likes.count()
+        likes = context['likes'] = context['product'].likes.select_related('person', 'product')
+        context['num_likes'] = likes.count()
+        context['is_like'] = likes.filter(product=self.get_object(), person=self.request.user).exists()
         context['ratings'] = Comment.RATING_CHOICES
         
         # Start Comments
-        comments = context['comments'] = context['product'].comments.all()
+        comments = context['comments'] = context['product'].comments.filter(published=True)
         context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,0,0,0,0]
 
         sum_start = 0
@@ -89,8 +91,9 @@ class DetailProduct(LoginRequiredMixin, DetailView):
             else: 
                 context['number5'] += 1 
             sum_start += int(item.rating)
-            
-        context['ave_starts'] = round(sum_start / len(comments), 1)      
+        
+        if comments.exists():
+            context['ave_starts'] = round(sum_start / len(comments), 1)      
         
         return context
 
@@ -104,6 +107,16 @@ class DetailProduct(LoginRequiredMixin, DetailView):
             form.save()
             return redirect('store:product', product.slug)
         else:
-            return HttpResponse('Not Correct')
+            return HttpResponseBadRequest()
     
     
+
+def likend(request, product_id):
+    product = Product.objects.get(id=product_id)
+    like = Like.objects.filter(product=product, person=request.user)
+    if like.exists():
+        like.get(person=request.user).delete()
+    else:
+        Like.objects.create(product=product, person=request.user)
+    return redirect('store:product', product.slug)
+        

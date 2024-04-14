@@ -60,17 +60,27 @@
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
 							during the winter.</p>
 						<div class="product_count">
-              				<label for="qty">Quantity:</label>
+              				<label for="sst">Quantity:</label>
 							<input type="text" name="qty" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
 							<a class="button primary-btn" href="#">Add to Cart</a>               
 						</div>
-						<div class="card_area d-flex align-items-center">
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-diamond"></i></a>
-                            {% if num_like == 0  %}
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a>
-                            {% else %}
-							<a class="icon_btn" href="#"><i class="lnr lnr lnr-heart"></i></a><span>{{ num_like }}</span>
-                            {% endif %}
+						<div class=" d-flex align-items-center">
+							<!-- <a class="icon_btn" href="#"><i class="fa fa-diamond"></i></a> -->
+							<a class="icon_btn" href="{% url 'store:like' product.id %}">
+								
+								<!-- <i class="fa fa-heart"></i> -->
+								{% if is_like %}
+								<img width="30" height="30" class="mt-1" 
+								src="https://img.icons8.com/ios-filled/50/love-circled.png" 
+								alt="love-circled"/>
+								{% else %}
+								<img width="30" height="30" class="mt-1"
+								src="https://img.icons8.com/ios/50/love-circled.png" 
+								alt="love-circled"/>
+								{% endif %}
+							</a>
+							{% if num_likes != 0  %}<span class="ml-2">{{ num_likes }}</span>{% endif %}
+                            
 						</div>
 					</div>
 				</div>
@@ -286,42 +296,6 @@
 								{% empty %}
 								<h3>Do't have reviews</h3>
 								{% endfor %}
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-2.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
-								<div class="review_item">
-									<div class="media">
-										<div class="d-flex">
-											<img src="img/product/review-3.png" alt="">
-										</div>
-										<div class="media-body">
-											<h4>Blake Ruiz</h4>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-											<i class="fa fa-star"></i>
-										</div>
-									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
-								</div>
 							</div>
 						</div>
 						<div class="col-lg-6">
@@ -330,7 +304,11 @@
 									<div class="col-6">
 										<div class="box_total">
 											<h5>Overall</h5>
+											{% if ave_starts %}
 											<h4>{{ ave_starts }}</h4>
+											{% else %}
+											<h4>0.0</h4>
+											{% endif %}
 											<h6>({{ comments.count }} Reviews)</h6>
 										</div>
 									</div>
