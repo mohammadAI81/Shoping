@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static %}
+{% load static  %}
 
 {% block title %}
     Products
@@ -96,7 +96,6 @@
                 <div class="col-xl-9 col-lg-8 col-md-7">
                     <!-- Start Filter Bar -->
                     <div class="filter-bar d-flex flex-wrap align-items-center">
-                        {% csrf_token %}
                         <div class="sorting">
                             <select name="sort" form="filter">
                                 {% for key, sort in sorts %}
@@ -114,6 +113,7 @@
                                         {% if num == None  %} selected
                                         {% endif %}>Show {{ show }}</option>
                                 {% endfor %}
+                                <input type="hidden" name="num" value="{{ num }}">
                             </select>
                         </div>
                         <div>
@@ -192,7 +192,7 @@
                                         <li class="page-item">
                                             <a href="?page{{ i }}&num={{ num }}" class="page-link">{{ i }}</a>
                                         </li>
-                                    {% endif %}
+                                        {% endif %}
                                     {% endfor %}
                                     {% if page_obj.has_next %}
                                         <li class="page-item">

@@ -23,4 +23,5 @@ urlpatterns = [
     path('account/', include('account.urls')),
     path('account/', include('django.contrib.auth.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
+    path('unicorn/', include('django_unicorn.urls')),
 ]

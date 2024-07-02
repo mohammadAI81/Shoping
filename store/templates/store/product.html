@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static filters %}
+{% load static filters unicorn %}
 
 
 
@@ -7,8 +7,13 @@
 	{{ product.name|title }}
 {% endblock title %}
 
+{% block unic %}
+    {% unicorn_scripts %}
+{% endblock %}
+
 {% block content %}
-    	<!-- ================ start banner area ================= -->	
+    {% csrf_token %}
+    <!-- ================ start banner area ================= -->
 	<!-- <section class="blog-banner-area" id="blog">
 		<div class="container h-100">
 			<div class="blog-banner">
@@ -65,21 +70,8 @@
 							<a class="button primary-btn" href="#">Add to Cart</a>               
 						</div>
 						<div class=" d-flex align-items-center">
-							<!-- <a class="icon_btn" href="#"><i class="fa fa-diamond"></i></a> -->
-							<a class="icon_btn" href="{% url 'store:like' product.id %}">
-								
-								<!-- <i class="fa fa-heart"></i> -->
-								{% if is_like %}
-								<img width="30" height="30" class="mt-1" 
-								src="https://img.icons8.com/ios-filled/50/love-circled.png" 
-								alt="love-circled"/>
-								{% else %}
-								<img width="30" height="30" class="mt-1"
-								src="https://img.icons8.com/ios/50/love-circled.png" 
-								alt="love-circled"/>
-								{% endif %}
-							</a>
-							{% if num_likes != 0  %}<span class="ml-2">{{ num_likes }}</span>{% endif %}
+
+                            {% unicorn 'storelist' product_id=product.id %}
                             
 						</div>
 					</div>

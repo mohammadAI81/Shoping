@@ -1,8 +1,7 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
-from django.urls import reverse_lazy
 from django.db.models import Count, Q
-from django.views.generic import DetailView, CreateView
+from django.views.generic import DetailView
 from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
@@ -76,7 +75,9 @@ class DetailProduct(LoginRequiredMixin, DetailView):
         
         # Start Comments
         comments = context['comments'] = context['product'].comments.filter(published=True)
-        context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,0,0,0,0]
+        context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,
+                                                                                                              0, 0,
+                                                                                                              0, 0]
 
         sum_start = 0
         for item in comments:
@@ -108,15 +109,5 @@ class DetailProduct(LoginRequiredMixin, DetailView):
             return redirect('store:product', product.slug)
         else:
             return HttpResponseBadRequest()
-    
-    
 
-def likend(request, product_id):
-    product = Product.objects.get(id=product_id)
-    like = Like.objects.filter(product=product, person=request.user)
-    if like.exists():
-        like.get(person=request.user).delete()
-    else:
-        Like.objects.create(product=product, person=request.user)
-    return redirect('store:product', product.slug)
         
