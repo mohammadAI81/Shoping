@@ -8,24 +8,20 @@ class StorelistView(UnicornView):
 
     def __init__(self, *args, **kwargs):
         super().__init__(*args, **kwargs)
-        self.product_id = self.component_kwargs['product_id']
+        self.product = Product.objects.get(id=self.component_kwargs['product_id'])
 
     def mount(self):
-
-        product = Product.objects.get(id=self.product_id)
-        self.is_like = product.likes.filter(person=self.request.user).exists()
-        self.num_likes = product.likes.count()
+        self.is_like = self.product.likes.filter(person=self.request.user).exists()
+        self.num_likes = self.product.likes.count()
 
     def like(self):
-        print('like is work')
-        product = Product.objects.get(id=self.product_id)
-        Like.objects.create(product=product, person=self.request.user)
+        Like.objects.create(product=self.product, person=self.request.user)
         self.num_likes += 1
         self.is_like = True
 
     def unlike(self):
-        print('unlike is work')
-        Like.objects.get(person=self.request.user).delete()
+        Like.objects.get(person=self.request.user, product=self.product ).delete()
+        print('after delete Like')
         self.num_likes -= 1
         self.is_like = False
 
