@@ -45,11 +45,10 @@ class ListproductctegoryView(UnicornView):
         #         paginator = Paginator(products, context['num'])
         #         products = paginator.get_page(page_num)
         #         context['page_obj'] = products
-        print('mount')
-        self.categories = Category.objects.all().values('id', 'name')
-        self.brands = Brand.objects.all().values('id', 'name')
-        self.colors = Color.objects.all().values('id', 'name')
-        self.products = Product.objects.select_related('category', 'color', 'brand')
+        self.categories = Category.objects.all()
+        self.brands = Brand.objects.all()
+        self.colors = Color.objects.all()
+        self.products = Product.objects.select_related('category', 'color', 'brand').order_by(self.values.get('sort'))
         # Filter Of Category
         if self.request.GET:
             category_id = self.request.GET.get('category')
@@ -67,6 +66,10 @@ class ListproductctegoryView(UnicornView):
             self.products = self.products.filter(q_obj)
         self.sorts = SORT
         self.shows = SHOW
+        
+    def sort_filter(self, sort):
+        self.products = self.products.order_by(sort)
+        self.values['sort'] = sort
 
 
 

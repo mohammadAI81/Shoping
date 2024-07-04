@@ -69,22 +69,26 @@
                     <!-- Start Filter Bar -->
                     <div class="filter-bar d-flex flex-wrap align-items-center">
                         <div class="sorting">
-                            <label for="sort"></label>
-                            <select name="sort" unicorn:model="values.sort">
-                                {% for key, sort in sorts %}
-                                    <option value="{{ key }}" 
-                                            {% if key == values.sort %}selected{% endif %}>Sorting {{ sort }}</option>
-                                {% endfor %}
-                            </select>
+                            <div class="nice-select" tabindex="0">
+                                <span class="current">Sorting {{ values.sort|title }}</span>
+                                <ul class="list">
+                                    {% for key, sort in sorts %}
+                                        <li class="option {% if key == values.sort  %}selected{% endif %}" unicorn:click="sort_filter('{{ key }}')">
+                                                Sorting {{ sort }}
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
                         <div class="sorting mr-auto">
-                            <label for="page_num"></label>
-                            <select name="page_num" id="page_num">
-                                {% for show in shows %}
-                                    <option {% if show == values.show %}selected{% endif %}>Sorting {{ show }}
-                                    </option>
-                                {% endfor %}
-                            </select>
+                            <div class="nice-select" tabindex="0">
+                                <span class="current">Sorting {{ values.show }}</span>
+                                <ul class="list">
+                                    {% for show in shows %}
+                                    <li class="option {% if show == values.show %}selected{% endif %}">Sorting {{ show }}</li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
                         </div>
                         <div>
                             <div class="input-group filter-bar-search">
