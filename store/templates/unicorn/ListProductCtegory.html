@@ -1,0 +1,186 @@
+{% load static %}
+<div>
+    <section class="section-margin--small mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-5">
+                    <div class="sidebar-categories">
+                        <div class="head">Browse Categories</div>
+                        <ul class="main-categories">
+                            <li class="common-filter">
+                                <ul>
+                                    <li class="filter-list"><a
+                                                href="{% url 'store:products' %}?category=0"
+                                                style="color: #777;">
+                                            All
+                                        </a>
+                                        </li>
+                                    {% for category in categories %}
+                                        <li class="filter-list"><a
+                                                href="{% url 'store:products' %}?category={{ category.id }}"
+                                                style="color: #777;">
+                                            {{ category.name }}
+                                        </a>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-filter">
+                        <div class="top-filter-head">Product Filters</div>
+                            <div class="common-filter">
+                                <div class="head">Brands</div>
+                                <ul>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="brand"
+                                                                   id="brand" name="brand" value="" checked>
+                                        <label for="brand">All</label>
+                                    </li>
+                                    {% for brand in brands %}
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="brand"
+                                                                       id="brand" name="brand" value="{{ brand.id }}">
+                                            <label for="brand">{{ brand.name }}</label>
+                                        </li>
+                                    {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="common-filter">
+                                <div class="head">Color</div>
+                                <ul>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="color"
+                                                                   id="color" name="color" value="" checked>
+                                        <label for="color">All</label>
+                                    </li>
+                                        {% for color in colors %}
+                                            <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="color"
+                                                                           id="color" name="color" value="{{ color.id }}">
+
+                                                <label for="color">{{ color.name }}</label>
+                                            </li>
+                                        {% endfor %}
+                                </ul>
+                            </div>
+                            <div class="common-filter container">
+                                <button class="button btn-sm mt-3" unicorn:click="product_filter">Filter</button>
+                            </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-7">
+                    <!-- Start Filter Bar -->
+                    <div class="filter-bar d-flex flex-wrap align-items-center">
+                        <div class="sorting">
+                            <label for="sort"></label>
+                            <select name="sort" unicorn:model="values.sort">
+                                {% for key, sort in sorts %}
+                                    <option value="{{ key }}" 
+                                            {% if key == values.sort %}selected{% endif %}>Sorting {{ sort }}</option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div class="sorting mr-auto">
+                            <label for="page_num"></label>
+                            <select name="page_num" id="page_num">
+                                {% for show in shows %}
+                                    <option {% if show == values.show %}selected{% endif %}>Sorting {{ show }}
+                                    </option>
+                                {% endfor %}
+                            </select>
+                        </div>
+                        <div>
+                            <div class="input-group filter-bar-search">
+                                <input type="text" placeholder="Search">
+                                <div class="input-group-append">
+                                    <button type="button"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Filter Bar -->
+                    <!-- Start Best Seller -->
+                    <section class="lattest-product-area pb-40 category-list">
+                        <div class="row">
+                            {% if products %}
+                                {% for product in products %}
+                                    <div class="col-md-6 col-lg-4">
+                                        <div class="card text-center card-product">
+                                            <div class="card-product__img">
+                                                <img class="card-img" src="{% static 'img\product\product1.png' %}"
+                                                     alt="">
+                                                <ul class="card-product__imgOverlay">
+                                                    <li>
+                                                        <button><i class="ti-search"></i></button>
+                                                    </li>
+                                                    <li>
+                                                        <button><i class="ti-shopping-cart"></i></button>
+                                                    </li>
+                                                    <li>
+                                                        <button><i class="ti-heart"></i></button>
+                                                    </li>
+                                                </ul>
+                                            </div>
+                                            <div class="card-body">
+                                                <p>{{ product.category|title }}</p>
+                                                <h4 class="card-product__title">
+                                                    <a href="{% url 'store:product' product.slug %}">{{ product.name|title }}</a>
+                                                </h4>
+                                                <p class="card-product__price">${{ product.price }}</p>
+                                            </div>
+                                        </div>
+                                    </div>
+                                {% endfor %}
+                            {% else %}
+                                <div class="col-md-6">
+                                    <h3 class="card-product__title">
+                                        No Products Found
+                                    </h3>
+
+                                </div>
+                            {% endif %}
+
+                        </div>
+                       <!-- {% if page_obj.has_other_pages %}
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a href="?page={{ page_obj.previous_page_number }}&num={{ num }}" class="page-link"
+                                               aria-label="Previous">
+                                              <span aria-hidden="true">
+                                                  <i class="fa fa-arrow-left"></i>
+                                              </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if i == page_obj.number %}
+                                        <li class="page-item active">
+                                            <a href="?page={{ i }}&num={{ num }}"
+                                            class="page-link">{{ i }}</a>
+                                        </li>
+                                        {% else %}
+                                        <li class="page-item">
+                                            <a href="?page{{ i }}&num={{ num }}" class="page-link">{{ i }}</a>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a href="?page={{ page_obj.next_page_number }}&num={{ num }}" class="page-link"
+                                               aria-label="Next">
+                                              <span aria-hidden="true">
+                                                  <i class="fa fa-arrow-right"></i>
+                                              </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %} -->
+                    </section>
+                    <!-- End Best Seller -->
+                </div>
+            </div>
+        </div>
+    </section>
+</div>

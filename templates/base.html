@@ -1,4 +1,4 @@
-{% load static %}
+{% load static unicorn %}
 
 <!DOCTYPE html>
 <html lang="en">
@@ -16,9 +16,11 @@
     <link rel="stylesheet" href="{% static 'vendors/owl-carousel/owl.carousel.min.css' %}">
     {% block unic %}
     {% endblock unic %}
+    {% unicorn_scripts %}
     <link rel="stylesheet" href="{% static 'css/style.css' %}">
 </head>
 <body>
+    {% csrf_token %}
 
 {% include 'partials/__header__.html' %}
 
