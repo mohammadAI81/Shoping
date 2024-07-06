@@ -1,6 +1,6 @@
 SORT = [('name', 'Name'), 
         ('datetime_created', 'Datetime Created'), 
-        ('category', 'Category'), 
-        ('brand', 'Brand'), 
-        ('color', 'Color'), ]
+        ('category__name', 'Category'), 
+        ('brand__name', 'Brand'), 
+        ('color__name', 'Color'), ]
 SHOW = ['10', '15', '20', '25', '30', 'All']

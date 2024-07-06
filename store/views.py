@@ -1,8 +1,6 @@
 from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
-from django.db.models import Count, Q
 from django.views.generic import DetailView
-from django.core.paginator import Paginator
 from django.contrib.auth.mixins import LoginRequiredMixin
 
 from .models import Comment, Product
@@ -10,21 +8,6 @@ from .forms import CommentForm
 
 
 def list_product_category(request):
-    # products = Product.objects.select_related('category', 'color', 'brand')
-    #
-    # context = {'products': products}
-
-    # # Pagination
-    # page_num = request_get.get('page')
-    # if context['num'] is None:
-    #     context['num'] = request_get.get('num')
-    # if page_num or context['num']:
-    #     if context['num'] != 'All':
-    #         paginator = Paginator(products, context['num'])
-    #         products = paginator.get_page(page_num)
-    #         context['page_obj'] = products
-
-    # context['products'] = products
 
     return render(request, 'store/products.html')
 

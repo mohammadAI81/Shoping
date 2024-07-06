@@ -47,12 +47,12 @@
                             <div class="common-filter">
                                 <div class="head">Color</div>
                                 <ul>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="color"
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model="color"
                                                                    id="color" name="color" value="" checked>
                                         <label for="color">All</label>
                                     </li>
                                         {% for color in colors %}
-                                            <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="color"
+                                            <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model="color"
                                                                            id="color" name="color" value="{{ color.id }}">
 
                                                 <label for="color">{{ color.name }}</label>
@@ -70,7 +70,11 @@
                     <div class="filter-bar d-flex flex-wrap align-items-center">
                         <div class="sorting">
                             <div class="nice-select" tabindex="0">
-                                <span class="current">Sorting {{ values.sort|title }}</span>
+                                {% for key, sort in sorts %}
+                                    {% if key == values.sort %}
+                                    <span class="current">Sorting {{ sort }}</span>
+                                    {% endif %}
+                                {% endfor %}
                                 <ul class="list">
                                     {% for key, sort in sorts %}
                                         <li class="option {% if key == values.sort  %}selected{% endif %}" unicorn:click="sort_filter('{{ key }}')">
@@ -82,10 +86,12 @@
                         </div>
                         <div class="sorting mr-auto">
                             <div class="nice-select" tabindex="0">
-                                <span class="current">Sorting {{ values.show }}</span>
+                                <span class="current">Showing {{ values.show }}</span>
                                 <ul class="list">
                                     {% for show in shows %}
-                                    <li class="option {% if show == values.show %}selected{% endif %}">Sorting {{ show }}</li>
+                                    <li class="option {% if show == values.show %}selected{% endif %}" unicorn:click="show_filter('{{ show }}', '1')">
+                                        Showing {{ show }}
+                                    </li>
                                     {% endfor %}
                                 </ul>
                             </div>
@@ -142,13 +148,13 @@
                             {% endif %}
 
                         </div>
-                       <!-- {% if page_obj.has_other_pages %}
+                        {% if page_obj.has_other_pages %}
                             <nav class="blog-pagination justify-content-center d-flex">
                                 <ul class="pagination">
-
                                     {% if page_obj.has_previous %}
                                         <li class="page-item">
-                                            <a href="?page={{ page_obj.previous_page_number }}&num={{ num }}" class="page-link"
+                                            <a class="page-link"
+                                               unicorn:click="show_filter('{{ values.show }}', {{ page_obj.previous_page_number }})"
                                                aria-label="Previous">
                                               <span aria-hidden="true">
                                                   <i class="fa fa-arrow-left"></i>
@@ -156,21 +162,23 @@
                                             </a>
                                         </li>
                                     {% endif %}
-                                    {% for i in page_obj.paginator.page_range %}
+                                    {% for i in page_obj.page_range %}
                                         {% if i == page_obj.number %}
                                         <li class="page-item active">
-                                            <a href="?page={{ i }}&num={{ num }}"
+                                            <a unicorn:click="show_filter('{{ values.show }}', {{ i }})"
                                             class="page-link">{{ i }}</a>
                                         </li>
                                         {% else %}
                                         <li class="page-item">
-                                            <a href="?page{{ i }}&num={{ num }}" class="page-link">{{ i }}</a>
+                                            <a unicorn:click="show_filter('{{ values.show }}', {{ i }})"
+                                            class="page-link" >{{ i }}</a>
                                         </li>
                                         {% endif %}
                                     {% endfor %}
                                     {% if page_obj.has_next %}
                                         <li class="page-item">
-                                            <a href="?page={{ page_obj.next_page_number }}&num={{ num }}" class="page-link"
+                                            <a class="page-link"
+                                               unicorn:click="show_filter('{{ values.show }}', {{ page_obj.next_page_number }})"
                                                aria-label="Next">
                                               <span aria-hidden="true">
                                                   <i class="fa fa-arrow-right"></i>
@@ -180,7 +188,7 @@
                                     {% endif %}
                                 </ul>
                             </nav>
-                        {% endif %} -->
+                        {% endif %} 
                     </section>
                     <!-- End Best Seller -->
                 </div>
