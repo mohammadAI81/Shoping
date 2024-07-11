@@ -8,7 +8,7 @@
 {% block content %}
 
   <!-- ================ start banner area ================= -->	
-  <section class="blog-banner-area" id="category">
+  <!-- <section class="blog-banner-area" id="category">
     <div class="container h-100">
         <div class="blog-banner">
             <div class="text-center">
@@ -22,7 +22,7 @@
             </div>
         </div>
 </div>
-</section>
+</section> -->
 <!-- ================ end banner area ================= -->
 
 <!--================Login Box Area =================-->
@@ -41,7 +41,7 @@
             <div class="col-lg-6">
                 <div class="login_form_inner">
                     <h3>Log in to enter</h3>
-                    <form class="row login_form" action="#" method="POST" >
+                    <form class="row login_form" method="POST" >
                         {% csrf_token %}
                         <div class="col-md-12 form-group">
                             <input type="text" class="form-control" id="name" name="username" placeholder="Username" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Username'">
