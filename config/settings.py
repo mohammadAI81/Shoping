@@ -44,10 +44,11 @@ INSTALLED_APPS = [
     'django.contrib.humanize',
 
     'django_unicorn',
+    'debug_toolbar',
     
     'store.apps.StoreConfig',
     'account.apps.AccountConfig',
-    'debug_toolbar',
+    'blog.apps.BlogConfig',
 ]
 
 MIDDLEWARE = [
@@ -132,8 +133,11 @@ USE_TZ = True
 # Static files (CSS, JavaScript, Images)
 # https://docs.djangoproject.com/en/5.0/howto/static-files/
 
+# Static Files
+STATIC_ROOT = 'staticfiles'
 STATIC_URL = '/static/'
 STATICFILES_DIRS = [str(BASE_DIR.joinpath('static'))]
+# Media Files
 
 # Default primary key field type
 # https://docs.djangoproject.com/en/5.0/ref/settings/#default-auto-field
