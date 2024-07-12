@@ -2,6 +2,7 @@ from django.shortcuts import render, redirect
 from django.http import HttpResponseBadRequest
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
+from django.contrib import messages
 
 from .models import Comment, Product
 from .forms import CommentForm
@@ -13,7 +14,7 @@ def list_product_category(request):
 
 
 class DetailProduct(LoginRequiredMixin, DetailView):
-    queryset = Product.objects.select_related('category', 'brand', 'color')
+    queryset = Product.objects.select_related('category', 'brand', 'color').prefetch_related('likes')
     template_name = 'store/product.html'
     context_object_name = 'product'
     slug_field = 'slug'
@@ -23,8 +24,6 @@ class DetailProduct(LoginRequiredMixin, DetailView):
     def get_context_data(self, **kwargs):
         context = super().get_context_data(**kwargs)
         likes = context['likes'] = context['product'].likes.select_related('person', 'product')
-        context['num_likes'] = likes.count()
-        context['is_like'] = likes.filter(product=self.get_object(), person=self.request.user).exists()
         context['ratings'] = Comment.RATING_CHOICES
         
         # Start Comments
@@ -60,8 +59,10 @@ class DetailProduct(LoginRequiredMixin, DetailView):
                            'rating': post.get('rating'), 'body': post.get('body')})
         if form.is_valid():
             form.save()
+            messages.success(request, 'Success message')
             return redirect('store:product', product.slug)
         else:
+            messages.error(request, 'Error message')
             return HttpResponseBadRequest()
 
         
