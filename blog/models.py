@@ -22,7 +22,7 @@ class Blog(models.Model):
     datetime_created = models.DateTimeField(auto_now_add=True, editable=True)
     datetime_modified = models.DateTimeField(auto_now=True, editable=True)
 
-    object = SortByDateTimeManager()
+    objects = SortByDateTimeManager()
     object_published = PublishedBlogManager()
 
     def __str__(self):
@@ -36,12 +36,13 @@ class Blog(models.Model):
 class Comment(models.Model):
     blog = models.ForeignKey(Blog, on_delete=models.CASCADE, related_name='comments')
     author = models.CharField(max_length=200)
+    email = models.EmailField()
     description = models.TextField()
 
     datetime_created = models.DateTimeField(auto_now_add=True, editable=True)
     datetime_modified = models.DateTimeField(auto_now=True, editable=True)
 
-    object = SortByDateTimeManager()
+    objects = SortByDateTimeManager()
 
     def __str__(self):
         return f'{self.author} comment for {self.blog.title}'

@@ -16,9 +16,9 @@ class BlogAdmin(admin.ModelAdmin):
     list_filter = ('published', )
     ordering = ('-datetime_created', )
     list_per_page = 10
-    fieldsets = (
-        (None, {'fields': ('author', 'title', 'description', 'published', 'slug')}),
-    )
+    # fieldsets = (
+    #     (None, {'fields': ('author', 'title', 'description', 'published', 'slug')}),
+    # )
     inlines = [
         CommentOfBlog,
     ]
@@ -30,6 +30,6 @@ class CommentAdmin(admin.ModelAdmin):
     list_filter = ('author', 'blog')
     list_per_page = 25
     ordering = ('-datetime_created', )
-    fieldsets = (
-        (None, {'fields': ['blog', 'author', 'description']}),
-    )
+    # fieldsets = (
+    #     (None, {'fields': ["__all__"]}),
+    # )
