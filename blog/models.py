@@ -1,5 +1,6 @@
 from django.db import models
 from django.utils.text import slugify
+from django.urls import reverse
 
 
 class SortByDateTimeManager(models.Manager):
@@ -31,6 +32,9 @@ class Blog(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
+    
+    def get_ablosute_url(self):
+        return reverse('blog:blog', args=[self.slug])
 
 
 class Comment(models.Model):

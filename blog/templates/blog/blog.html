@@ -160,7 +160,8 @@
                                         </div>
                                 </div>
                                 <div class="comments-area">
-                                        <h4>05 Comments</h4>
+                                        <h4>{{ num_comment }} Comments</h4>
+                                        {% for comment in comments %}
                                         <div class="comment-list">
                                                 <div class="single-comment justify-content-between d-flex">
                                                         <div class="user justify-content-between d-flex">
@@ -169,12 +170,10 @@
                                                                 </div>
                                                                 <div class="desc">
                                                                         <h5>
-                                                                                <a href="#">Emilly Blunt</a>
+                                                                                <a href="#">{{ comment.author }}</a>
                                                                         </h5>
-                                                                        <p class="date">December 4, 2017 at 3:12 pm </p>
-                                                                        <p class="comment">
-                                                                                Never say goodbye till the end comes!
-                                                                        </p>
+                                                                        <p class="date">{{ comment.datetime_created|date:'F d, Y \a\t f A' }} </p>
+                                                                        <p class="comment">{{ comment.description }}</p>
                                                                 </div>
                                                         </div>
                                                         <div class="reply-btn">
@@ -182,6 +181,7 @@
                                                         </div>
                                                 </div>
                                         </div>
+                                        {% endfor %}
                                         <div class="comment-list left-padding">
                                                 <div class="single-comment justify-content-between d-flex">
                                                         <div class="user justify-content-between d-flex">
@@ -203,73 +203,13 @@
                                                         </div>
                                                 </div>
                                         </div>
-                                        <div class="comment-list left-padding">
-                                                <div class="single-comment justify-content-between d-flex">
-                                                        <div class="user justify-content-between d-flex">
-                                                                <div class="thumb">
-                                                                        <img src="img/blog/c3.jpg" alt="">
-                                                                </div>
-                                                                <div class="desc">
-                                                                        <h5>
-                                                                                <a href="#">Annie Stephens</a>
-                                                                        </h5>
-                                                                        <p class="date">December 4, 2017 at 3:12 pm </p>
-                                                                        <p class="comment">
-                                                                                Never say goodbye till the end comes!
-                                                                        </p>
-                                                                </div>
-                                                        </div>
-                                                        <div class="reply-btn">
-                                                                <a href="#" class="btn-reply text-uppercase">reply</a>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                        <div class="comment-list">
-                                                <div class="single-comment justify-content-between d-flex">
-                                                        <div class="user justify-content-between d-flex">
-                                                                <div class="thumb">
-                                                                        <img src="img/blog/c4.jpg" alt="">
-                                                                </div>
-                                                                <div class="desc">
-                                                                        <h5>
-                                                                                <a href="#">Maria Luna</a>
-                                                                        </h5>
-                                                                        <p class="date">December 4, 2017 at 3:12 pm </p>
-                                                                        <p class="comment">
-                                                                                Never say goodbye till the end comes!
-                                                                        </p>
-                                                                </div>
-                                                        </div>
-                                                        <div class="reply-btn">
-                                                                <a href="#" class="btn-reply text-uppercase">reply</a>
-                                                        </div>
-                                                </div>
-                                        </div>
-                                        <div class="comment-list">
-                                                <div class="single-comment justify-content-between d-flex">
-                                                        <div class="user justify-content-between d-flex">
-                                                                <div class="thumb">
-                                                                        <img src="img/blog/c5.jpg" alt="">
-                                                                </div>
-                                                                <div class="desc">
-                                                                        <h5>
-                                                                                <a href="#">Ina Hayes</a>
-                                                                        </h5>
-                                                                        <p class="date">December 4, 2017 at 3:12 pm </p>
-                                                                        <p class="comment">
-                                                                                Never say goodbye till the end comes!
-                                                                        </p>
-                                                                </div>
-                                                        </div>
-                                                        <div class="reply-btn">
-                                                                <a href="#" class="btn-reply text-uppercase">reply</a>
-                                                        </div>
-                                                </div>
-                                        </div>
                                 </div>
                                 <div class="comment-form">
                                         <h4>Leave a Reply</h4>
-                                        <form method="POST" action="#">
+                                        {{ form.errors }}
+                                        <form method="POST"">
+                                                {% csrf_token %}
+                                                <input type="hidden" name="blog" value="{{ blog.id }}">
                                                 <div class="form-group form-inline">
                                                         <div class="form-group col-lg-6 col-md-6 name">
                                                                 <input type="text" name="author" class="form-control" id="name" placeholder="Enter Name" 
@@ -284,7 +224,7 @@
                                                         <textarea class="form-control mb-10" rows="5" name="description" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'"
                                                                 required=""></textarea>
                                                 </div>
-                                                <a href="#" class="button button-postComment button--active">Post Comment</a>
+                                                <input type="submit" value="Post Comment" class="button button-postComment button--active">
                                         </form>
                                 </div>
                         </div>
