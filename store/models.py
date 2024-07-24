@@ -43,9 +43,9 @@ class Product(models.Model):
     width = models.IntegerField()
     height = models.IntegerField()
     weight = models.IntegerField()
-    brand = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='product')
-    color = models.ForeignKey(Color, on_delete=models.PROTECT, related_name='product')
-    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='product')
+    brand = models.ForeignKey(Brand, on_delete=models.PROTECT, related_name='products')
+    color = models.ForeignKey(Color, on_delete=models.PROTECT, related_name='products')
+    category = models.ForeignKey(Category, on_delete=models.PROTECT, related_name='products')
     discount = models.BooleanField(default=False, blank=True, null=True)
     discount_price = models.DecimalField(max_digits=5, decimal_places=2, blank=True, null=True)
 
@@ -55,8 +55,7 @@ class Product(models.Model):
         return self.name
 
     def save(self, *args, **kwargs):
-        if not self.slug:
-            self.slug = slugify(self.name)
+        self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
 
 
@@ -73,7 +72,7 @@ class Comment(models.Model):
     published = models.BooleanField()
     rating = models.CharField(max_length=1, choices=RATING_CHOICES, blank=True)
     body = models.TextField()
-    author = models.ForeignKey(get_user_model(), on_delete=models.DO_NOTHING, related_name='comments')
+    author = models.ForeignKey(get_user_model(), on_delete=models.CASCADE, related_name='comments')
     product = models.ForeignKey(Product, on_delete=models.CASCADE, related_name='comments')
 
     datetime_created = models.DateTimeField(auto_now_add=True)

@@ -32,12 +32,12 @@
                             <div class="common-filter">
                                 <div class="head">Brands</div>
                                 <ul>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="brand"
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.defer="brand"
                                                                    id="brand" name="brand" value="" checked>
                                         <label for="brand">All</label>
                                     </li>
                                     {% for brand in brands %}
-                                        <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.lazy="brand"
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.defer="brand"
                                                                        id="brand" name="brand" value="{{ brand.id }}">
                                             <label for="brand">{{ brand.name }}</label>
                                         </li>
@@ -47,12 +47,12 @@
                             <div class="common-filter">
                                 <div class="head">Color</div>
                                 <ul>
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model="color"
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.defer="color"
                                                                    id="color" name="color" value="" checked>
                                         <label for="color">All</label>
                                     </li>
                                         {% for color in colors %}
-                                            <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model="color"
+                                            <li class="filter-list"><input class="pixel-radio" type="radio" unicorn:model.defer="color"
                                                                            id="color" name="color" value="{{ color.id }}">
 
                                                 <label for="color">{{ color.name }}</label>

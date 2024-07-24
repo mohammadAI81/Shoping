@@ -31,8 +31,8 @@ class ColorAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_display = ('author', 'product', 'rating', 'published')
-    list_editable = ('product', 'rating', 'published')
+    list_display = ('product', 'rating', 'published')
+    list_editable = ('published', )
     list_filter = ('published', 'rating')
     list_per_page = 25
     ordering = ('datetime_created', )
@@ -48,10 +48,13 @@ class LikeAdmin(admin.ModelAdmin):
 
 @admin.register(Product)
 class ProductAdmin(admin.ModelAdmin):
-    list_display = ('name', 'inventory', 'category', 'price', 'discount', 'availability')
-    list_editable = ('inventory', 'price', 'discount')
-    list_filter = ('category', 'discount', 'availability')
+    list_display = ('name', 'inventory', 'price', 'availability')
+    list_editable = ('inventory', 'price',)
+    list_filter = ('availability', )
     list_per_page = 35
+    prepopulated_fields = {
+        'slug': ['name']
+    }
     ordering = ('datetime_created', )
     fieldsets = (
         (None, {'fields': ['name', 'description', 'inventory', 'price', 'slug',

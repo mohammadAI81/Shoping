@@ -8,6 +8,8 @@ django = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
 django-unicorn = "*"
+faker = "*"
+factory-boy = "*"
 
 [dev-packages]
 
