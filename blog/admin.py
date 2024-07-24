@@ -14,7 +14,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_display = ('title', 'published')
     list_editable = ('published', )
     list_filter = ('published', )
-    ordering = ('-datetime_created', )
+    ordering = ('id', )
     list_per_page = 10
     # fieldsets = (
     #     (None, {'fields': ('author', 'title', 'description', 'published', 'slug')}),
@@ -27,9 +27,9 @@ class BlogAdmin(admin.ModelAdmin):
 
 @admin.register(Comment)
 class CommentAdmin(admin.ModelAdmin):
-    list_filter = ('author', 'blog')
+    list_display = ('id', 'author', 'blog')
     list_per_page = 25
-    ordering = ('-datetime_created', )
+    ordering = ('id', )
     # fieldsets = (
     #     (None, {'fields': ["__all__"]}),
     # )

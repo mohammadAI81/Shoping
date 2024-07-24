@@ -33,7 +33,7 @@ class Blog(models.Model):
         self.slug = slugify(self.title)
         return super().save(*args, **kwargs)
     
-    def get_ablosute_url(self):
+    def get_absolute_url(self):
         return reverse('blog:blog', args=[self.slug])
 
 
