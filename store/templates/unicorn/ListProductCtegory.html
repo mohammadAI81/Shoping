@@ -1,4 +1,4 @@
-{% load static %}
+{% load static filters %}
 <div>
     <section class="section-margin--small mb-5">
         <div class="container">
@@ -168,10 +168,15 @@
                                             <a unicorn:click="show_filter('{{ values.show }}', {{ i }})"
                                             class="page-link">{{ i }}</a>
                                         </li>
-                                        {% else %}
+                                        {% elif page_obj.number|minus:"3" <= i and i <= page_obj.number|add:"3" %}
                                         <li class="page-item">
                                             <a unicorn:click="show_filter('{{ values.show }}', {{ i }})"
                                             class="page-link" >{{ i }}</a>
+                                        </li>
+                                        {% elif i == page_obj.num_page %}
+                                        <li class="page-item">
+                                            <a unicorn:click="show_filter('{{ values.show }}', {{ page_obj.num_page }})"
+                                            class="page-link" >{{ page_obj.num_page }}</a>
                                         </li>
                                         {% endif %}
                                     {% endfor %}

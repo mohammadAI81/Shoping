@@ -80,6 +80,7 @@ class ListproductctegoryView(UnicornView):
                 'has_next': page_obj.has_next(),
                 'number': page_obj.number,
                 'page_range': list(paginator.page_range),
+                'num_page': page_obj.paginator.num_pages
             }
         self.values['show'] = show
 
