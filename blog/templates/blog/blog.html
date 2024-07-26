@@ -207,7 +207,7 @@
                                 <div class="comment-form">
                                         <h4>Leave a Reply</h4>
                                         {{ form.errors }}
-                                        <form method="POST"">
+                                        <form action="{% url 'blog:create-comment' blog.slug %}"  method="POST">
                                                 {% csrf_token %}
                                                 <input type="hidden" name="blog" value="{{ blog.id }}">
                                                 <div class="form-group form-inline">
