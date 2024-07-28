@@ -8,9 +8,9 @@ class SortByDateTimeManager(models.Manager):
         return super().get_queryset().order_by('-datetime_created')
 
 
-class PublishedBlogManager(models.Manager):
-    def blog_published(self):
-        return self.get_queryset().filter(published=True)
+class PublishedBlogManager(SortByDateTimeManager):
+    def get_queryset(self):
+        return super().get_queryset().filter(published=True)
 
 
 class Blog(models.Model):

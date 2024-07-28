@@ -1,32 +1,49 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Count
+from django.db.models import Count, Max
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_POST
 
 from .form import CommentForm
-from .models import Comment, Blog
+from .models import Blog
 
 
 def blogs(request):
-    blogs = Blog.objects.annotate(count_comments=Count('comments'))
+    blogs = Blog.object_published.annotate(count_comments=Count('comments'))
+    
+    # Popular Posts
+    comments_count = max([blog['count_comments'] for blog in blogs.values('count_comments')]) // 2
+    popular_posts = blogs.filter(count_comments__gte=comments_count).order_by('-count_comments')[:4]
+    
+    # Search
+    search = request.GET.get('search')
+    if search:
+        blogs = blogs.filter(title__icontains=search)
     
     # Paginator
     page_num = request.GET.get('page')
     paginator = Paginator(blogs, 5)
     page_obj = paginator.get_page(page_num)
     blogs = page_obj.object_list
-    
+
     context = {
         'blogs': blogs,
         'page_obj': page_obj,
+        'popular_posts': popular_posts,
     }
     
     return render(request, 'blog/blogs.html', context)
 
 
 def detail_blog(request, slug):
-    blog = get_object_or_404(Blog, slug=slug)
+    blogs = Blog.object_published.annotate(count_comments=Count('comments'))
+
+
+    # Popular Posts
+    comments_count = max([blog['count_comments'] for blog in blogs.values('count_comments')]) // 2
+    popular_posts = blogs.filter(count_comments__gte=comments_count).order_by('-count_comments')[:4]
+    
+    blog = get_object_or_404(blogs, slug=slug)
     comments = blog.comments.all()
     count_comment = len(comments)
     form = CommentForm()
@@ -37,13 +54,13 @@ def detail_blog(request, slug):
         'comments': comments,
         'num_comment': count_comment,
         'form': form,
+        'popular_posts': popular_posts,
         }
     return render(request, 'blog/blog.html', context)
 
 
 @require_POST
 def create_comment(request, slug):
-    print(request.method)
     form = CommentForm(request.POST)
     if form.is_valid():
         form.save()
