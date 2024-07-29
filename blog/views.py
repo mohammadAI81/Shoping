@@ -1,5 +1,5 @@
 from django.shortcuts import render, get_object_or_404, redirect
-from django.db.models import Count, Max
+from django.db.models import Count
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_POST

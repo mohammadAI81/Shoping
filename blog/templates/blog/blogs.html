@@ -89,7 +89,7 @@
                                 <li class="page-item active">
                                     <a href="{% url 'blog:blogs' %}?page={{ i }}" class="page-link">{{ i }}</a>
                                 </li>
-                                {% elif page_obj.number|add:"-2" <= i and i <= page_obj.number|add:"3" %}
+                                {% elif page_obj.number|add:"-3" <= i and i <= page_obj.number|add:"3" %}
                                 <li class="page-item">
                                     <a href="{% url 'blog:blogs' %}?page={{ i }}" class="page-link">{{ i }}</a>
                                 </li>
