@@ -1,11 +1,16 @@
 from django.contrib import admin
 from django.db.models import Count
 
-from .models import Comment, Blog
+from .models import Comment, Blog, Reply
 
 
 class CommentOfBlog(admin.TabularInline):
     model = Comment
+    extra = 1
+    
+    
+class ReplyOfComment(admin.TabularInline):
+    model = Reply
     extra = 1
     
 
@@ -35,4 +40,17 @@ class CommentAdmin(admin.ModelAdmin):
     list_display = ('id', 'author', 'blog')
     list_per_page = 25
     ordering = ('id', )
+    search_fields = ('author',)
     autocomplete_fields = ('blog', )
+    list_select_related = ('blog', )
+    inlines = [ReplyOfComment]
+
+
+@admin.register(Reply)
+class Reply(admin.ModelAdmin):
+    list_display = ('author', 'comment')
+    ordering = ('datetime_created', )
+    list_per_page = 25
+    autocomplete_fields = ('comment',)
+    
+    

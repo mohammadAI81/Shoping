@@ -63,7 +63,6 @@
                                                 <p class="excert">{{ blog.description|linebreaks }}</p>
                                         </div>
                                 </div>
-                                
                                 <div class="comments-area">
                                         <h4>{{ num_comment }} Comments</h4>
                                         {% for comment in comments %}
@@ -82,12 +81,13 @@
                                                                 </div>
                                                         </div>
                                                         <div class="reply-btn">
-                                                                <a href="#" class="btn-reply text-uppercase">reply</a>
+                                                                <a href="?comment_id={{ comment.id }}&comment_author={{ comment.author }}#form-comment" class="btn-reply text-uppercase">reply</a>
                                                         </div>
                                                 </div>
                                         </div>
-                                        {% endfor %}
+                                        {% if comment.replies %}
                                         <div class="comment-list left-padding">
+                                                {% for reply in comment.replies.all %}
                                                 <div class="single-comment justify-content-between d-flex">
                                                         <div class="user justify-content-between d-flex">
                                                                 <div class="thumb">
@@ -95,24 +95,39 @@
                                                                 </div>
                                                                 <div class="desc">
                                                                         <h5>
-                                                                                <a href="#">Elsie Cunningham</a>
+                                                                                <a href="#">{{ reply.author }}</a>
                                                                         </h5>
-                                                                        <p class="date">December 4, 2017 at 3:12 pm </p>
-                                                                        <p class="comment">
-                                                                                Never say goodbye till the end comes!
-                                                                        </p>
+                                                                        <p class="date">{{ reply.datetime_created|date:"F d, Y \a\t f A" }}</p>
+                                                                        <p class="comment">{{ reply.description }}</p>
                                                                 </div>
                                                         </div>
-                                                        <div class="reply-btn">
-                                                                <a href="#" class="btn-reply text-uppercase">reply</a>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                </div>
+                                <div class="comment-form" id="form-comment">
+                                        {% if request.GET.comment_id %}
+                                        <h4><strong>Reply for {{ request.GET.comment_author }}</strong> | <a href="{{ blog.get_absolute_url }}">Delete</a></h4>
+                                        <form action="{% url 'blog:create-reply-comment' blog.slug %}"  method="POST">        
+                                                {% csrf_token %}
+                                                <input type="hidden" name="comment" value="{{ request.GET.comment_id }}">
+                                                <div class="form-group form-inline">
+                                                        <div class="form-group col-lg-6 col-md-6 name">
+                                                                <input type="text" name="author" class="form-control" id="name" placeholder="Enter Name" 
+                                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'" value="{{ user.username }}">
                                                         </div>
                                                 </div>
-                                        </div>
-                                </div>
-                                <div class="comment-form">
-                                        <h4>Leave a Reply</h4>
-                                        {{ form.errors }}
-                                        <form action="{% url 'blog:create-comment' blog.slug %}"  method="POST">
+                                                <div class="form-group">
+                                                        <textarea class="form-control mb-10" rows="5" name="description" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'"
+                                                                required=""></textarea>
+                                                </div>
+                                                <input type="submit" value="Post Comment" class="button button-postComment button--active">
+                                        </form>
+                                        {% else %}
+                                        <h4><strong>Leave a Reply</strong></h4>
+                                        <form action="{% url 'blog:create-comment' blog.slug %}"  method="POST">        
                                                 {% csrf_token %}
                                                 <input type="hidden" name="blog" value="{{ blog.id }}">
                                                 <div class="form-group form-inline">
@@ -131,6 +146,7 @@
                                                 </div>
                                                 <input type="submit" value="Post Comment" class="button button-postComment button--active">
                                         </form>
+                                        {% endif %}
                                 </div>
                         </div>
                         {% include 'blog/blog_side.html' with author=True %}

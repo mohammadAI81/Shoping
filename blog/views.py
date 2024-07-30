@@ -3,8 +3,9 @@ from django.db.models import Count
 from django.contrib import messages
 from django.core.paginator import Paginator
 from django.views.decorators.http import require_POST
+from django.utils.html import format_html
 
-from .form import CommentForm
+from .form import CommentForm, ReplyForm
 from .models import Blog
 
 
@@ -48,7 +49,6 @@ def detail_blog(request, slug):
     count_comment = len(comments)
     form = CommentForm()
     
-    
     context = {
         'blog': blog,
         'comments': comments,
@@ -58,14 +58,22 @@ def detail_blog(request, slug):
         }
     return render(request, 'blog/blog.html', context)
 
-
 @require_POST
 def create_comment(request, slug):
     form = CommentForm(request.POST)
     if form.is_valid():
-        form.save()
+        # form.save()
         messages.success(request, 'Your comment is submit.')
     else:
-        messages.error(request, f'Your comment is not submit {form.errors}')
+        messages.error(request, format_html('Your comment is not submit {}'.format(form.errors)))
     return redirect('blog:blog', slug)
         
+@require_POST
+def create_reply_comment(request, slug):
+    form = ReplyForm(request.POST)
+    if form.is_valid():
+        form.save()
+        messages.success(request, 'Your relpy is submit.')
+    else:
+        messages.error(request, format_html("Your relpy is not submit {}.".format(form.errors)))
+    return redirect('blog:blog', slug)

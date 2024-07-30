@@ -49,4 +49,19 @@ class Comment(models.Model):
     objects = SortByDateTimeManager()
 
     def __str__(self):
-        return f'{self.author} comment for {self.blog.title}'
+        return f'{self.author}: {self.blog}'
+
+
+class Reply(models.Model):
+    author = models.CharField(max_length=255)
+    comment = models.ForeignKey(Comment, on_delete=models.CASCADE, related_name='replies')
+    description = models.TextField()
+    
+    datetime_created = models.DateTimeField(auto_now_add=True, editable=True)
+    datetime_modified = models.DateTimeField(auto_now=True, editable=True)
+
+    objects = SortByDateTimeManager()
+    
+    def __str__(self):
+        return f'{self.author}: {self.description[:25]}'
+
