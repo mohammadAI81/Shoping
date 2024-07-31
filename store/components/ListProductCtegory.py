@@ -29,7 +29,7 @@ class ListproductctegoryView(UnicornView):
         if self.request.GET:
             category_id = self.request.GET.get('category')
             if category_id != '0':
-                self.products = self.products.filter(category_id=category_id)
+                self.products_init = self.products_init.filter(category_id=category_id)
         self.products = self.products_init
         self.sort_filter(sort=self.values.get('sort'))
         self.show_filter(self.values.get('show'))

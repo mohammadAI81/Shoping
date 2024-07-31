@@ -1,0 +1,123 @@
+{% extends 'base.html' %}
+{% load static humanize filters %}
+
+{% block title %}
+    Blog
+{% endblock  %}
+
+{% block content %}
+
+<!-- ================ start banner area ================= -->	
+  <section class="blog-banner-area m-5" id="blog">
+    <div class="container h-100">
+      <div class="blog-banner">
+        <div class="text-center">
+          <h1>Blogs</h1>
+          <nav aria-label="breadcrumb" class="banner-breadcrumb">
+            <ol class="breadcrumb">
+              <li class="breadcrumb-item"><a href="#">Home</a></li>
+              <li class="breadcrumb-item active" aria-current="page">Blog</li>
+            </ol>
+          </nav>
+        </div>
+      </div>
+    </div>
+  </section>
+<!-- ================ end banner area ================= -->
+
+
+
+<!--================Blog Area =================-->
+    <section class="blog_area">
+    <div class="container">
+        <div class="row">
+            <div class="col-lg-8">
+                <div class="blog_left_sidebar">
+                    {% for blog in blogs %}
+                    <article class="row blog_item">
+                        <div class="col-md-3">
+                            <div class="blog_info text-right">
+                                <ul class="blog_meta list">
+                                    <li>
+                                        <a href="#">{{ blog.author }}
+                                            <i class="fa fa-user"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">{{ blog.datetime_created|date:"j M,  Y" }}
+                                            <i class="fa fa-calendar"></i>
+                                        </a>
+                                    </li>
+                                    <li>
+                                        <a href="#">{{ blog.count_comments }} Comments
+                                            <i class="fa fa-comments"></i>
+                                        </a>
+                                    </li>
+                                </ul>
+                            </div>
+                        </div>
+                        <div class="col-md-9">
+                            <div class="blog_post">
+                                <img src="{% static 'img/blog/main-blog/m-blog-2.jpg' %}" 
+                                alt="image"
+                                style="border-radius: 5px;">
+                                <div class="blog_details">
+                                    <a href="{{ blog.get_absolute_url }}">
+                                        <h2>{{ blog.title }}</h2>
+                                    </a>
+                                    <p>{{ blog.description|linebreaks|truncatewords:32 }}</p>
+                                    <a class="button button-blog" href="{{ blog.get_absolute_url }}">View More</a>
+                                </div>
+                            </div>
+                        </div>
+                    </article>
+                    {% endfor %}
+                    {% if page_obj.has_other_pages %}
+                    <nav class="blog-pagination justify-content-center d-flex">
+                        <ul class="pagination">
+                            {% if page_obj.has_previous %}
+                            <li class="page-item">
+                                <a href="{% url 'blog:blogs' %}?page={{ page_obj.previous_page_number }}" class="page-link" aria-label="Previous">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-arrow-left"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                            {% for i in page_obj.paginator.num_pages|to_list %}
+                                {% if i == page_obj.number %}
+                                <li class="page-item active">
+                                    <a href="{% url 'blog:blogs' %}?page={{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                                {% elif page_obj.number|add:"-3" <= i and i <= page_obj.number|add:"3" %}
+                                <li class="page-item">
+                                    <a href="{% url 'blog:blogs' %}?page={{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                                {% elif i == page_obj.paginator.num_pages %}
+                                <li class="page-item">
+                                    <a href="{% url 'blog:blogs' %}?page={{ i }}" class="page-link">{{ i }}</a>
+                                </li>
+                                {% endif %}
+                            {% endfor %}
+                            {% if page_obj.has_next %}
+                            <li class="page-item">
+                                <a href="{% url 'blog:blogs' %}?page={{ page_obj.next_page_number }}" class="page-link" aria-label="Next">
+                                    <span aria-hidden="true">
+                                        <i class="fa fa-arrow-right"></i>
+                                    </span>
+                                </a>
+                            </li>
+                            {% endif %}
+                        </ul>
+                    </nav>
+                    {% endif %}
+                </div>
+            </div>
+            
+            {% include 'blog/blog_side.html' with author=False  %}
+            
+        </div>
+    </div>
+    </section>
+<!--================Blog Area =================-->
+{% endblock %}

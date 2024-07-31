@@ -1,0 +1,176 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    blog | {{ blog.title|title }}
+{% endblock %}
+
+
+{% block content %}
+
+<!-- ================ start banner area ================= -->	
+<section class="blog-banner-area m-5" id="blog">
+   <div class="container h-100">
+        <div class="blog-banner">
+           <div class="text-center">
+           <h1>Blog Details</h1>
+              <nav aria-label="breadcrumb" class="banner-breadcrumb">
+                   <ol class="breadcrumb">
+                   <li class="breadcrumb-item"><a href="#">Home</a></li>
+                   <li class="breadcrumb-item active" aria-current="page">Blog Details</li>
+                   </ol>
+              </nav>
+           </div>
+        </div>
+   </div>
+</section>
+<!-- ================ end banner area ================= -->
+
+<!--================Blog Area =================-->
+        <section class="blog_area single-post-area py-80px section-margin--small">
+        <div class="container">
+                <div class="row">
+                        <div class="col-lg-8 posts-list">
+                                <div class="single-post row">
+                                        <div class="col-lg-12">
+                                                <div class="feature-img">
+                                                        <img class="img-fluid" src="{% static 'img/blog/main-blog/m-blog-2.jpg' %}" alt="image">
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-3  col-md-3">
+                                                <div class="blog_info text-right">
+                                                        <ul class="blog_meta list">
+                                                                <li>
+                                                                        <a href="#">{{ blog.author }}
+                                                                                <i class="fa fa-user"></i>
+                                                                        </a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="#">{{ blog.datetime_created|date:"j M,  Y" }}
+                                                                                <i class="fa fa-calendar"></i>
+                                                                        </a>
+                                                                </li>
+                                                                <li>
+                                                                        <a href="#">{{ blog.count_comments }} Comments
+                                                                                <i class="fa fa-comments"></i>
+                                                                        </a>
+                                                                </li>
+                                                        </ul>
+                                                </div>
+                                        </div>
+                                        <div class="col-lg-9 col-md-9 blog_details">
+                                                <h2>{{ blog.title|title }}</h2>
+                                                <p class="excert">{{ blog.description|linebreaks }}</p>
+                                        </div>
+                                </div>
+                                <div class="comments-area">
+                                        <h4>{{ num_comment }} Comments</h4>
+                                        {% for comment in comments %}
+                                        <div class="comment-list">
+                                                <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                                <div class="thumb">
+                                                                        <img src="img/blog/c1.jpg" alt="">
+                                                                </div>
+                                                                <div class="desc">
+                                                                        <h5>
+                                                                                <a href="#">{{ comment.author }}</a>
+                                                                        </h5>
+                                                                        <p class="date">{{ comment.datetime_created|date:'F d, Y \a\t f A' }} </p>
+                                                                        <p class="comment">{{ comment.description }}</p>
+                                                                </div>
+                                                        </div>
+                                                        <div class="reply-btn">
+                                                                <a href="?comment_id={{ comment.id }}&comment_author={{ comment.author }}#form-comment" class="btn-reply text-uppercase">reply</a>
+                                                        </div>
+                                                </div>
+                                        </div>
+                                        {% if comment.replies %}
+                                        <div class="comment-list left-padding">
+                                                {% for reply in comment.replies.all %}
+                                                <div class="single-comment justify-content-between d-flex">
+                                                        <div class="user justify-content-between d-flex">
+                                                                <div class="thumb">
+                                                                        <img src="img/blog/c2.jpg" alt="">
+                                                                </div>
+                                                                <div class="desc">
+                                                                        <h5>
+                                                                                <a href="#">{{ reply.author }}</a>
+                                                                        </h5>
+                                                                        <p class="date">{{ reply.datetime_created|date:"F d, Y \a\t f A" }}</p>
+                                                                        <p class="comment">{{ reply.description }}</p>
+                                                                </div>
+                                                        </div>
+                                                </div>
+                                                {% endfor %}
+                                        </div>
+                                        {% endif %}
+                                        {% endfor %}
+                                </div>
+                                <div class="comment-form" id="form-comment">
+                                        {% if request.GET.comment_id %}
+                                        <h4><strong>Reply for {{ request.GET.comment_author }}</strong> | <a href="{{ blog.get_absolute_url }}">Delete</a></h4>
+                                        <form action="{% url 'blog:create-reply-comment' blog.slug %}"  method="POST">        
+                                                {% csrf_token %}
+                                                <input type="hidden" name="comment" value="{{ request.GET.comment_id }}">
+                                                <div class="form-group form-inline">
+                                                        <div class="form-group col-lg-6 col-md-6 name">
+                                                                <input type="text" name="author" class="form-control" id="name" placeholder="Enter Name" 
+                                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'" value="{{ user.username }}">
+                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <textarea class="form-control mb-10" rows="5" name="description" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'"
+                                                                required=""></textarea>
+                                                </div>
+                                                <input type="submit" value="Post Comment" class="button button-postComment button--active">
+                                        </form>
+                                        {% else %}
+                                        <h4><strong>Leave a Reply</strong></h4>
+                                        <form action="{% url 'blog:create-comment' blog.slug %}"  method="POST">        
+                                                {% csrf_token %}
+                                                <input type="hidden" name="blog" value="{{ blog.id }}">
+                                                <div class="form-group form-inline">
+                                                        <div class="form-group col-lg-6 col-md-6 name">
+                                                                <input type="text" name="author" class="form-control" id="name" placeholder="Enter Name" 
+                                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter Name'" value="{{ user.username }}">
+                                                        </div>
+                                                        <div class="form-group col-lg-6 col-md-6 email">
+                                                                <input type="email" name="email" class="form-control" id="email" placeholder="Enter email address" 
+                                                                onfocus="this.placeholder = ''" onblur="this.placeholder = 'Enter email address'" value="{{ user.email }}">
+                                                        </div>
+                                                </div>
+                                                <div class="form-group">
+                                                        <textarea class="form-control mb-10" rows="5" name="description" placeholder="Description" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Messege'"
+                                                                required=""></textarea>
+                                                </div>
+                                                <input type="submit" value="Post Comment" class="button button-postComment button--active">
+                                        </form>
+                                        {% endif %}
+                                </div>
+                        </div>
+                        {% include 'blog/blog_side.html' with author=True %}
+                </div>
+        </div>
+        </section>
+<!--================Blog Area =================-->
+
+
+<!--================Instagram Area =================-->
+        {% comment %} <section class="instagram_area">
+        <div class="container box_1620">
+        <div class="insta_btn">
+        <a class="btn theme_btn" href="#">Follow us on instagram</a>
+        </div>
+        <div class="instagram_image row m0">
+        <a href="#"><img src="#" alt=""></a>
+        <a href="#"><img src="#" alt=""></a>
+        <a href="#"><img src="#" alt=""></a>
+        <a href="#"><img src="#" alt=""></a>
+        <a href="#"><img src="#" alt=""></a>
+        <a href="#"><img src="#" alt=""></a>
+        </div>
+        </div>
+        </section> {% endcomment %}
+<!--================End Instagram Area =================-->
+{% endblock %}

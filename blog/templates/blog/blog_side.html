@@ -1,0 +1,61 @@
+<div class="col-lg-4">
+    <div class="blog_right_sidebar">
+            <aside class="single_sidebar_widget search_widget mb-5">
+            <form method="GET" action="{% url 'blog:blogs' %}">
+                    <div class="input-group">
+                            <input type="text" class="form-control" placeholder="Search Posts" name="search">
+                            <span class="input-group-btn">
+                                    <button class="btn btn-default" type="submit">
+                                            <i class="fa fa-search"></i>
+                                    </button>
+                            </span>
+                    </div>
+                    <!-- /input-group -->
+                    </form>
+            </aside>
+            {% if author %}
+            <aside class="single_sidebar_widget author_widget">
+                    <div class="br"></div>
+                    <img class="author_img rounded-circle" src="img/blog/author.png" alt="">
+                    <h4>Author: {{ blog.author|title }}</h4>
+                    <div class="br"></div>
+            </aside>
+            {% endif %}
+            <aside class="single_sidebar_widget popular_post_widget">
+                    <h3 class="widget_title">Popular Posts</h3>
+                    {% for popular_post in popular_posts %}
+                    <div class="media post_item">
+                            <img src="img/blog/popular-post/post1.jpg" alt="post">
+                            <div class="media-body">
+                                    <a href="blog-details.html">
+                                            <h3>{{ popular_post.title }}</h3>
+                                    </a>
+                                    <p>{{ popular_post.datetime_created|timesince }} ago</p>
+                            </div>
+                    </div>
+                    {% endfor %}
+                    <div class="br"></div>
+            </aside>
+            <aside class="single-sidebar-widget newsletter_widget">
+                    <h4 class="widget_title">Newsletter</h4>
+                    <p>
+                            Here, I focus on a range of items and features that we use in life without giving them a second thought.
+                    </p>
+                    <form method="POST">
+                    <div class="form-group d-flex flex-row">
+                            <div class="input-group">
+                                    <div class="input-group-prepend">
+                                            <div class="input-group-text">
+                                                    <i class="fa fa-envelope" aria-hidden="true"></i>
+                                            </div>
+                                    </div>
+                                    <input type="text" class="form-control" id="inlineFormInputGroup" placeholder="Enter email address" onfocus="this.placeholder = ''"
+                                            onblur="this.placeholder = 'Enter email'">
+                            </div>
+                            <input type="submit" class="bbtns" value="Subcribe" style="border: none;">
+                        </div>
+                    </form>
+                    <p class="text-bottom">You can unsubscribe at any time</p>
+            </aside>
+    </div>
+</div>

@@ -5,8 +5,4 @@ register = Library()
 
 @register.filter
 def to_list(value, ):
-    return range(int(value))
-
-@register.filter
-def minus(value, num):
-    return value - int(num)
+    return range(1, int(value) + 1)
