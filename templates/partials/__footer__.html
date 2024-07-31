@@ -19,12 +19,12 @@
                     <div class="single-footer-widget tp_widgets">
                         <h4 class="footer_title">Quick Links</h4>
                         <ul class="list">
-                            <li><a href="#">Home</a></li>
+                            <li><a href="{% url 'page:home' %}">Home</a></li>
                             <li><a href="{% url 'store:products' %}">Shop</a></li>
                             <li><a href="{% url 'blog:blogs' %}">Blog</a></li>
                             <li><a href="{% url 'store:products' %}">Product</a></li>
                             <li><a href="#">Brand</a></li>
-                            <li><a href="#">Contact</a></li>
+                            <li><a href="{% url 'page:contact' %}">Contact</a></li>
                         </ul>
                     </div>
                 </div>

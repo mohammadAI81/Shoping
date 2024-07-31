@@ -21,6 +21,7 @@ admin.site.site_header = 'Shop'
 admin.site.index_title = 'Shop'
 
 urlpatterns = [
+    path('', include('page.urls')),
     path('admin/', admin.site.urls),
     path('blog/', include('blog.urls')),
     path('store/', include('store.urls')),
