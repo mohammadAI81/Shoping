@@ -8,12 +8,15 @@ from blog.models import Blog
 def home(request):
     # Import Data | Blog & Product
     blogs = Blog.object_published.annotate(count_comments=Count('comments'))
-    products = Product.objects.all()
+    products = Product.objects.select_related('category', 'brand', 'color').annotate(count_comments=Count('comments'))
     
-    # Popular Posts
+    # Popular Blog
     comments_count = max([blog['count_comments'] for blog in blogs.values('count_comments')]) // 2
-    popular_posts = blogs.filter(count_comments__gte=comments_count).order_by('-count_comments')[:7]
-    
+    blogs = blogs.filter(count_comments__gte=comments_count).order_by('-count_comments')[:3]
+
+    # Popular Product
+    product_count_comment = max([product['count_comments'] for product in products.values('count_comments')]) // 2
+    products = products.filter(count_comments__gte=product_count_comment).order_by('-count_comments')[:7]
     
     
     context = {
