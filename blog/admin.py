@@ -1,5 +1,8 @@
+from typing import Any
 from django.contrib import admin
 from django.db.models import Count
+from django.db.models.query import QuerySet
+from django.http import HttpRequest
 
 from .models import Comment, Blog, Reply
 
@@ -21,7 +24,7 @@ class BlogAdmin(admin.ModelAdmin):
     list_filter = ('published', )
     ordering = ('id', )
     search_fields = ('title', )
-    list_per_page = 20
+    list_per_page = 25
     inlines = [
         CommentOfBlog,
     ]
@@ -52,5 +55,8 @@ class Reply(admin.ModelAdmin):
     ordering = ('datetime_created', )
     list_per_page = 25
     autocomplete_fields = ('comment',)
+    
+    def get_queryset(self, request):
+        return super().get_queryset(request).select_related('comment__blog')
     
     

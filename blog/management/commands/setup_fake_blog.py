@@ -7,7 +7,7 @@ import factory
 from faker import Faker
 
 from blog.models import Comment, Blog
-from blog.factories import CommentFactory, BlogFactory
+from blog.factories import CommentFactory, BlogFactory, ReplyFactory
 
 list_of_model = [Comment, Blog]
 
@@ -37,11 +37,20 @@ class Command(BaseCommand):
         print('DONE')
 
         # Comment data
-        print(f"Adding blogs comment ... ", end='')
+        print("Adding blogs comment ... ", end='')
+        comments = list()
         for blog in blogs:
             for _ in range(random.randint(1, 4)):
                 comment = CommentFactory(blog_id=blog.id)
                 comment.datetime_created = faker.date_time_ad(start_datetime=datetime(2021, 1, 1), end_datetime=datetime(2024, 1, 1))
                 comment.datetime_modified = comment.datetime_created + timedelta(hours=random.randint(1, 5000))
+                comments.append(comment)
         print('DONE')
         
+        # Reply data
+        print('Adding comment reply data ...', end=" ")
+        for comment in comments:
+            for _ in range(random.randint(1, 3)):
+                ReplyFactory(comment_id=comment.id)
+        print('DONE')
+                
