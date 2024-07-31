@@ -7,21 +7,21 @@
 
 {% block content %}
   <!-- ================ start banner area ================= -->	
-  <!-- <section class="blog-banner-area" id="category">
+  <section class="blog-banner-area m-5" id="category">
     <div class="container h-100">
         <div class="blog-banner">
             <div class="text-center">
                 <h1>Sign Up</h1>
                 <nav aria-label="breadcrumb" class="banner-breadcrumb">
-        <ol class="breadcrumb">
-          <li class="breadcrumb-item"><a href="#">Home</a></li>
-          <li class="breadcrumb-item active" aria-current="page">Sign Up</li>
-        </ol>
-      </nav>
+                    <ol class="breadcrumb">
+                    <li class="breadcrumb-item"><a href="#">Home</a></li>
+                    <li class="breadcrumb-item active" aria-current="page">Sign Up</li>
+                    </ol>
+                </nav>
             </div>
         </div>
-</div>
-</section> -->
+    </div>
+</section>
 <!-- ================ end banner area ================= -->
 
 <!--================Login Box Area =================-->
@@ -43,8 +43,8 @@
                     </div>
                 </div>
             </div>
-            <div class="col-lg-6">
-                <div class="login_form_inner register_form_inner">
+            <div class="col-lg-6" >
+                <div class="login_form_inner register_form_inner"">
                     <h3>Create an account</h3>
                     <form class="row login_form" action="{% url 'account:signup' %}" id="register_form" method="POST" aria-disabled="true">
                         {% csrf_token %}
@@ -60,14 +60,14 @@
                         <div class="col-md-12 form-group">
                             <input type="password" class="form-control" id="confirmPassword" name="password2" placeholder="Confirm Password" onfocus="this.placeholder = ''" onblur="this.placeholder = 'Confirm Password'">
                         </div>
-                        <div class="col-md-12 form-group">
+                        <!-- <div class="col-md-12 form-group">
                             <div class="creat_account">
                                 <input type="checkbox" id="f-option2" name="selector">
                                 <label for="f-option2">Keep me logged in</label>
                             </div>
-                        </div>
+                        </div> -->
                         <div class="col-md-12 form-group">
-                            <button type="submit" value="submit" class="button button-register w-100">Register</button>
+                            <button type="submit" value="submit" class="button button-register w-100" style="border-radius: 5px;">Register</button>
                         </div>
                     </form>
                 </div>

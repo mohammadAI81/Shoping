@@ -1,8 +1,8 @@
 from django.shortcuts import render, redirect
-from django.http import HttpResponseBadRequest
 from django.views.generic import DetailView
 from django.contrib.auth.mixins import LoginRequiredMixin
 from django.contrib import messages
+from django.utils.html import format_html
 
 from .models import Comment, Product
 from .forms import CommentForm
@@ -59,10 +59,10 @@ class DetailProduct(LoginRequiredMixin, DetailView):
                            'rating': post.get('rating'), 'body': post.get('body')})
         if form.is_valid():
             form.save()
-            messages.success(request, 'Success message')
+            messages.success(request, 'Your comment is success')
             return redirect('store:product', product.slug)
         else:
-            messages.error(request, 'Error message')
-            return HttpResponseBadRequest()
+            messages.error(request, format_html('your comment have Error message. {}'.format(form.errors)))
+            return redirect('store:product', product.slug)
 
         

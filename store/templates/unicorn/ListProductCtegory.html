@@ -168,7 +168,7 @@
                                             <a unicorn:click="show_filter('{{ values.show }}', {{ i }})"
                                             class="page-link">{{ i }}</a>
                                         </li>
-                                        {% elif page_obj.number|minus:"3" <= i and i <= page_obj.number|add:"3" %}
+                                        {% elif page_obj.number|add:"-3" <= i and i <= page_obj.number|add:"3" %}
                                         <li class="page-item">
                                             <a unicorn:click="show_filter('{{ values.show }}', {{ i }})"
                                             class="page-link" >{{ i }}</a>

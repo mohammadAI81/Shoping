@@ -15,11 +15,9 @@
             <ul class="nav navbar-nav menu_nav ml-auto mr-auto">
               <li class="nav-item active"><a class="nav-link" href="index.html">Home</a></li>
               <li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                <a href="{% url 'store:products' %}" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
                 <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="{% url 'store:products' %}">Shop Category</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-product.html">Product Details</a></li>
                   <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
                   <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
                   <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
@@ -28,18 +26,15 @@
               <li class="nav-item submenu dropdown">
                 <a href="{% url 'blog:blogs' %}" class="nav-link dropdown-toggle" data-toggle="dropdown-menu" role="button" aria-haspopup="true"
                   aria-expanded="false">Blog</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="blog.html">Blog</a></li>
-                  <li class="nav-item"><a class="nav-link" href="single-blog.html">Blog Details</a></li>
-                </ul>
 							</li>
+              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
 							<li class="nav-item submenu dropdown">
-                <a href="#" class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
-                  aria-expanded="false">Pages</a>
+                <a class="nav-link dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true"
+                  aria-expanded="false" style="cursor: pointer;">Account</a>
                 <ul class="dropdown-menu">
                   {% if user.is_authenticated %}
+                  <li class="nav-item"><a class="nav-link center" href="{% url 'admin:login' %}" target="_blank">{{ user.username|title}}</a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'account:logout' %}">Logout</a></li>
-                  <li class="nav-item"><a class="nav-link center" >{{ user.username|title}}</a></li>
                   {% else %}
                   <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'account:signup' %}">Sign Up</a></li>
@@ -47,12 +42,10 @@
                   <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
                 </ul>
               </li>
-              <li class="nav-item"><a class="nav-link" href="contact.html">Contact</a></li>
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-search"></i></button></li>
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">3</span></button> </li>
+              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">5</span></button> </li>
               <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
             </ul>
           </div>
