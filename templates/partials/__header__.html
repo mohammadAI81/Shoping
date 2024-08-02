@@ -45,7 +45,12 @@
             </ul>
 
             <ul class="nav-shop">
-              <li class="nav-item"><button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">5</span></button> </li>
+              
+                <li class="nav-item">
+                  <a href="{% url 'cart:cart-detail' %}" style="background: none; border: none;">
+                  <button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{ cart|length }}</span></button>
+                  </a>
+                </li>
               <li class="nav-item"><a class="button button-header" href="#">Buy Now</a></li>
             </ul>
           </div>
