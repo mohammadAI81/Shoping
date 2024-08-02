@@ -1,3 +1,6 @@
 from django.shortcuts import render
 
-# Create your views here.
+from .models import Order, OrderItem
+
+def create_order(request):
+    Order.objects.first()
