@@ -1,4 +1,5 @@
 from django.contrib import messages
+from django.db.models.expressions import F
 
 from .models import Order, OrderItem
 from .forms import OrderItemForm
@@ -9,9 +10,11 @@ class Cart:
         self.request = request
         
         user = self.request.user
-        order = user.orders.filter(status='u').first()
+        order = user.orders.filter(status='u').prefetch_related('items').first()
+        
         if not order:
             order = Order.objects.create(name=user)
+
         self.order = order
     
     def add_order_item(self):
@@ -31,6 +34,9 @@ class Cart:
         orderitem['quantity'] += quantity
         orderitem.save()
         messages.success(self.request, 'Your cart is update.')
+
+    def show(self):
+        return self.order.items.select_related('product', 'order').annotate(total_price_product = F('unit_price') * F('quantity'))
             
     def paid(self):
         self.order.status = 'p'
@@ -44,7 +50,7 @@ class Cart:
         messages.success(self.request, 'Your cart is canceled.')
         
     def __len__(self):
-        return sum([item['quantity'] for item in self.order.items.all()])
+        return sum([item.quantity for item in self.order.items.all()])
         
             
         

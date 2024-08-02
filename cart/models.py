@@ -30,7 +30,7 @@ class Order(models.Model):
     objects = SortByDateTimeManage()
     
     def __str__(self):
-        return self.customer
+        return self.name.username
     
     def get_total_price(self):
         total_price = 0
@@ -42,10 +42,8 @@ class Order(models.Model):
 class OrderItem(models.Model):
     order = models.ForeignKey(Order, on_delete=models.PROTECT, related_name='items')
     product = models.ForeignKey(Product, on_delete=models.PROTECT, related_name='orderitems')
-    unit_price = models.PositiveIntegerField()
+    unit_price = models.DecimalField(max_digits=6, decimal_places=2)
     quantity = models.IntegerField(validators=[MinValueValidator(1)])
-    
-    objects = SortByDateTimeManage()
 
     def __str__(self):
-        return self.order.customer
+        return f'{self.product} -> {self.quantity}'

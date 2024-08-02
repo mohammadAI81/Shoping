@@ -1,6 +1,11 @@
 from django.shortcuts import render
 
 from .models import Order, OrderItem
+from .cart import Cart
 
-def create_order(request):
-    Order.objects.first()
+def cart_detail(request):
+    cart = Cart(request)
+    context = {
+           
+    }
+    return render(request, 'cart/cart.html', context)
