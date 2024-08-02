@@ -27,7 +27,7 @@ class DetailProduct(LoginRequiredMixin, DetailView):
         context['ratings'] = Comment.RATING_CHOICES
         
         # Start Comments
-        comments = context['comments'] = context['product'].comments.filter(published=True)
+        comments = context['comments'] = context['product'].comments.select_related('author', 'product').filter(published=True)
         context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,
                                                                                                               0, 0,
                                                                                                               0, 0]
