@@ -62,7 +62,7 @@
                                           class="input-text qty">
                                       <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
                                           class="increase items-count" type="button"><i class="fa fa-plus"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp;&amp; sst > 0 ) result.value--;return false;"
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp);&amp; sst > 0 ; result.value--;return false;"
                                           class="reduced items-count" type="button"><i class="fa fa-minus"></i></button>
                                   </div>
                               </td>
@@ -97,8 +97,8 @@
                               </td>
                               <td>
                                   <div class="checkout_btn_inner d-flex align-items-center">
-                                      <a class="gray_btn" href="#">Go to Shopping</a>
-                                      <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                      <a class="gray_btn" href="{% url 'store:products' %}">Go to Shopping</a>
+                                      <a class="primary-btn ml-2" href="{% url 'cart:payment' %}">Proceed to checkout</a>
                                   </div>
                               </td>
                           </tr>

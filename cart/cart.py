@@ -23,6 +23,8 @@ class Cart:
             order_obj = form.save(commit=False)
             order_obj.order = self.order
             order_obj.save()
+            return True
+        return False
             
     def remove(self, product):
         orderitem = self.order.items.get(product_id=product.id)
