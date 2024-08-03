@@ -13,7 +13,7 @@ def list_product_category(request):
     return render(request, 'store/products.html')
 
 
-class DetailProduct(LoginRequiredMixin, DetailView):
+class DetailProduct(DetailView):
     queryset = Product.objects.select_related('category', 'brand', 'color').prefetch_related('likes')
     template_name = 'store/product.html'
     context_object_name = 'product'

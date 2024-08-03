@@ -12,7 +12,8 @@ class StorelistView(UnicornView):
 
     def mount(self):
         self.user = self.request.user
-        self.is_like = self.product.likes.filter(person=self.user).exists()
+        if self.user.is_authenticated:
+            self.is_like = self.product.likes.filter(person=self.user).exists()
         self.num_likes = self.product.likes.count()
 
     def like(self):
