@@ -23,7 +23,6 @@ class StorelistView(UnicornView):
 
     def unlike(self):
         Like.objects.get(person=self.user, product=self.product ).delete()
-        print('after delete Like')
         self.num_likes -= 1
         self.is_like = False
 
