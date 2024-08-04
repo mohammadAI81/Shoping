@@ -13,7 +13,7 @@ def list_product_category(request):
     return render(request, 'store/products.html')
 
 
-class DetailProduct(LoginRequiredMixin, DetailView):
+class DetailProduct(DetailView):
     queryset = Product.objects.select_related('category', 'brand', 'color').prefetch_related('likes')
     template_name = 'store/product.html'
     context_object_name = 'product'
@@ -27,7 +27,7 @@ class DetailProduct(LoginRequiredMixin, DetailView):
         context['ratings'] = Comment.RATING_CHOICES
         
         # Start Comments
-        comments = context['comments'] = context['product'].comments.filter(published=True)
+        comments = context['comments'] = context['product'].comments.select_related('author', 'product').filter(published=True)
         context['number1'], context['number2'], context['number3'], context['number4'], context['number5'] = [0,
                                                                                                               0, 0,
                                                                                                               0, 0]

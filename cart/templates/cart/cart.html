@@ -1,0 +1,116 @@
+{% extends 'base.html' %}
+{% load static %}
+
+{% block title %}
+    Cart
+{% endblock %}
+
+{% block content %}
+    	<!-- ================ start banner area ================= -->	
+	<section class="blog-banner-area m-5" id="category">
+		<div class="container h-50">
+			<div class="blog-banner">
+				<div class="text-center">
+					<h1>Shopping Cart</h1>
+					<nav aria-label="breadcrumb" class="banner-breadcrumb">
+                        <ol class="breadcrumb">
+                        <li class="breadcrumb-item"><a href="{% url 'page:home' %}">Home</a></li>
+                        <li class="breadcrumb-item active" aria-current="page">Shopping Cart</li>
+                        </ol>
+                    </nav>
+                </div>
+			</div>
+        </div>
+	</section>
+	<!-- ================ end banner area ================= -->
+  
+  
+
+  <!--================Cart Area =================-->
+  <section class="cart_area">
+      <div class="container">
+          <div class="cart_inner">
+              <div class="table-responsive">
+                {% if cart.show %}
+                  <table class="table">
+                      <thead>
+                          <tr>
+                              <th scope="col">Product</th>
+                              <th scope="col">Price</th>
+                              <th scope="col">Quantity</th>
+                              <th scope="col">Total</th>
+                          </tr>
+                      </thead>
+                      <tbody>
+                        {% for item in cart.show %}
+                          <tr>
+                              <td>
+                                  <div class="media">
+                                      <div class="d-flex">
+                                          <img src="{% static 'img/cart/cart2.png' %}" alt="">
+                                      </div>
+                                      <div class="media-body">
+                                          <p>{{ item.product.name }}</p>
+                                      </div>
+                                  </div>
+                              </td>
+                              <td>
+                                  <h5>$ {{ item.unit_price }}</h5>
+                              </td>
+                              <td>
+                                  <div class="product_count">
+                                      <input type="text" name="qty" id="sst" maxlength="12" value="{{ item.quantity }}" title="Quantity:"
+                                          class="input-text qty">
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
+                                          class="increase items-count" type="button"><i class="fa fa-plus"></i></button>
+                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp);&amp; sst > 0 ; result.value--;return false;"
+                                          class="reduced items-count" type="button"><i class="fa fa-minus"></i></button>
+                                  </div>
+                              </td>
+                              <td>
+                                  <h5>${{ item.total_price_product }}</h5>
+                              </td>
+                          </tr>
+                          {% endfor %}
+                          <tr class="bottom_button">
+                              <td>
+                                  <a class="button" href="#">Update Cart</a>
+                              </td>
+                              <td>
+                                <h5>Total price</h5>
+                              </td>
+                              <td>
+
+                              </td>
+                              <td>
+                                <h5>${{ cart.order.get_total_price }}</h5>
+                            </td>
+                          </tr>
+                          <tr class="out_button_area">
+                              <td class="d-none-l">
+
+                              </td>
+                              <td class="">
+
+                              </td>
+                              <td>
+
+                              </td>
+                              <td>
+                                  <div class="checkout_btn_inner d-flex align-items-center">
+                                      <a class="gray_btn" href="{% url 'store:products' %}">Go to Shopping</a>
+                                      <a class="primary-btn ml-2" href="#">Proceed to checkout</a>
+                                  </div>
+                              </td>
+                          </tr>
+                      </tbody>
+                  </table>
+                {% else %}
+                    <h3> You don't buy product <a href="{% url 'store:products' %}">Go to Shopping</a> </h3>
+                {% endif %}
+              </div>
+          </div>
+      </div>
+  </section>
+  <!--================End Cart Area =================-->
+{% endblock  %}

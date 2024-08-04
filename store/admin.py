@@ -56,6 +56,7 @@ class ProductAdmin(admin.ModelAdmin):
         'slug': ['name']
     }
     ordering = ('datetime_created', )
+    search_fields =('name', )
     fieldsets = (
         (None, {'fields': ['name', 'description', 'inventory', 'price', 'slug',
                            'availability', 'width', 'height', 'weight', 'brand',
