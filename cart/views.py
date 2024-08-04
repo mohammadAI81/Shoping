@@ -17,13 +17,8 @@ def cart_detail(request):
 def add_to_cart(request):
     cart = Cart(request)
     if cart.add_order_item():
-        messages.success(request, 'Your order is submit')
+        pass
     else:
         messages.error(request, 'Your order is not submit')
     return redirect('store:products')
         
-@login_required(login_url='/account/login/')
-def checkout(request):
-    cart = Cart(request)
-    cart.paid()
-    return redirect('page:home')

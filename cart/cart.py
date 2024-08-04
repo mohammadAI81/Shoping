@@ -20,9 +20,15 @@ class Cart:
     def add_order_item(self):
         form = OrderItemForm(self.request.POST)
         if form.is_valid():
-            order_obj = form.save(commit=False)
-            order_obj.order = self.order
-            order_obj.save()
+            cleaned_data = form.cleaned_data
+            orderitem = self.order.items.filter(product_id=cleaned_data['product'].id)
+            if orderitem.exists() :
+                self.add(cleaned_data['product'], cleaned_data['quantity'])
+            else:
+                order_obj = form.save(commit=False)
+                order_obj.order = self.order
+                order_obj.save()
+                messages.success(self.request, 'Your order is submit')
             return True
         return False
             
@@ -33,7 +39,7 @@ class Cart:
         
     def add(self, product, quantity=1):
         orderitem = self.order.items.get(product_id=product.id)
-        orderitem['quantity'] += quantity
+        orderitem.quantity += quantity
         orderitem.save()
         messages.success(self.request, 'Your cart is update.')
 
