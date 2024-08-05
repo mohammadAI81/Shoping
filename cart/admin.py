@@ -9,7 +9,7 @@ from .models import Order, OrderItem
 
 @admin.register(Order)
 class OrderAdmin(admin.ModelAdmin):
-    list_display = ('name', 'status', 'phone', 'city', 'num_items')
+    list_display = ('name', 'phone', 'city', 'num_items', 'status')
     list_editable = ('status', )
     search_fields = ('name', )
     list_filter = ('status', )

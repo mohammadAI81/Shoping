@@ -59,24 +59,22 @@
             <div class="row">
                 <div class="col-lg-8">
                     <h3>Billing Details</h3>
-                    <form class="row contact_form" action="#" method="POST" novalidate="novalidate" id="payment-form">
-                        <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="first" name="name" placeholder="Name">
+                    <form class="row contact_form" action="{% url 'cart:checkout-paid' cart.order.id %}" method="POST" novalidate="novalidate" id="payment-form">
+                        {% csrf_token %}
+                        <div class="col-md-6 form-group p_star">
+                            <input type="text" class="form-control" id="number" name="phone" placeholder="Phone number" value="{{ cart.order.phone }}">
                         </div>
                         <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="number" name="phone" placeholder="Phone number">
-                        </div>
-                        <div class="col-md-6 form-group p_star">
-                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email">
+                            <input type="text" class="form-control" id="email" name="email" placeholder="Enter Email" value="{{ cart.order }}">
                         </div>
                         <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="add1" name="address" placeholder="Enter Address">
+                            <input type="text" class="form-control" id="add1" name="address" placeholder="Enter Address" value="{{ cart.order.address }}">
                         </div>
                         <div class="col-md-12 form-group p_star">
-                            <input type="text" class="form-control" id="city" name="city" placeholder="Town/City">
+                            <input type="text" class="form-control" id="city" name="city" placeholder="Town/City" value="{{ cart.order.city }}">
                         </div>
                         <div class="col-md-12 form-group mb-0">
-                            <textarea class="form-control" name="note" id="message" rows="1" placeholder="Order Notes"></textarea>
+                            <textarea class="form-control" name="note" id="message" rows="1" placeholder="Order Notes" value="{{ cart.order.note }}"></textarea>
                         </div>
                     </form>
                 </div>
