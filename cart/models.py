@@ -24,6 +24,9 @@ class Order(models.Model):
     phone = models.CharField(max_length=15, blank=True)
     status = models.CharField(max_length=1, choices=STATUS_ORDER, default=STATUS_ORDER[0][0])
     
+    authority = models.CharField(max_length=37, blank=True)
+    ref_id = models.PositiveIntegerField(blank=True, null=True)
+    
     datetime_created = models.DateTimeField(auto_now_add=True)
     datetime_modifild = models.DateTimeField(auto_now=True)
     

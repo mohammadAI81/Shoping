@@ -1,6 +1,7 @@
 from django.db import models
 from django.contrib.auth import get_user_model
 from django.template.defaultfilters import slugify
+from django.urls import reverse
 
 
 class Category(models.Model):
@@ -57,6 +58,9 @@ class Product(models.Model):
     def save(self, *args, **kwargs):
         self.slug = slugify(self.name)
         return super().save(*args, **kwargs)
+    
+    def get_absolute_url(self):
+        return reverse('store:product', args=[self.slug])
 
 
 class Comment(models.Model):
