@@ -36,10 +36,8 @@ def checkout_paid(request, id):
         order = Order.objects.prefetch_related('items').filter(id=id)
         if order.exists():
             order.update(address=order_data['address'], city=order_data['city'], phone=order_data['phone'], note=order_data['note'])
-            messages.success(request, f'Your cart is payed')
-            return redirect('page:home')
+            return redirect('payment:process')
         else:
-            messages.error(request, f'Your cart is not payed')
             return HttpResponseNotFound('Not Found')
     else:
         messages.error(request, f'Your Form is not Complect')

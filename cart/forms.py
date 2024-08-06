@@ -9,8 +9,6 @@ class OrderItemForm(forms.ModelForm):
         
         
 class OrderForm(forms.ModelForm):
-    email = forms.EmailField(widget=forms.EmailInput(), required=False)
-    
     
     class Meta:
         model = Order

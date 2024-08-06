@@ -10,6 +10,7 @@ mysqlclient = "*"
 django-unicorn = "*"
 faker = "*"
 factory-boy = "*"
+requests = "*"
 
 [dev-packages]
 
