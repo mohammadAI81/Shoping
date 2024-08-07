@@ -31,7 +31,7 @@
       <div class="container">
           <div class="cart_inner">
               <div class="table-responsive">
-                {% if cart.show %}
+                {% if cart %}
                   <table class="table">
                       <thead>
                           <tr>
@@ -42,7 +42,7 @@
                           </tr>
                       </thead>
                       <tbody>
-                        {% for item in cart.show %}
+                        {% for item in cart %}
                           <tr>
                               <td>
                                   <div class="media">
@@ -58,26 +58,32 @@
                                   <h5>$ {{ item.unit_price }}</h5>
                               </td>
                               <td>
-                                  <div class="product_count">
-                                      <input type="text" name="qty" id="sst" maxlength="12" value="{{ item.quantity }}" title="Quantity:"
-                                          class="input-text qty">
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst )) result.value++;return false;"
-                                          class="increase items-count" type="button"><i class="fa fa-plus"></i></button>
-                                      <button onclick="var result = document.getElementById('sst'); var sst = result.value; if( !isNaN( sst ) &amp);&amp; sst > 0 ; result.value--;return false;"
-                                          class="reduced items-count" type="button"><i class="fa fa-minus"></i></button>
-                                  </div>
+                                  <!-- <div class="product_count">
+                                    <input
+                                            
+                                            type="number"
+                                            class="quantity-input"
+                                            name="quantity"
+                                            id="qty-1"
+                                            value="{{ item.quantity }}"
+                                            min="1">
+                                    </div> -->
+                                    <h5>X {{ item.quantity }}</h5>
                               </td>
                               <td>
                                   <h5>${{ item.total_price_product }}</h5>
+                              </td>
+                              <td>
+                                  <a href="{% url 'cart:cart-remove' item.product.id %}"><i class="fa fa-minus" aria-hidden="true"></i></a>
                               </td>
                           </tr>
                           {% endfor %}
                           <tr class="bottom_button">
                               <td>
-                                  <a class="button" href="#">Update Cart</a>
+                                <h5>Total price</h5>
                               </td>
                               <td>
-                                <h5>Total price</h5>
+                                
                               </td>
                               <td>
 

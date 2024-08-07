@@ -11,7 +11,7 @@ from cart.models import Order
 
 def payment_process(request):
     order = get_object_or_404(Order.objects.select_related('name'), name=request.user, status='u')
-    total_price = order.get_total_price()
+    total_price = order.get_total_price() * 50000
     
     request_header = {
         'accept': 'applications/json',
@@ -42,7 +42,7 @@ def payment_callback(request):
     authority = request.GET.get('Authority')
     order = get_object_or_404(Order.objects.select_related('name'), authority=authority)
 
-    total_price = order.get_total_price()
+    total_price = order.get_total_price() * 50000
     
     if status == 'OK':
         

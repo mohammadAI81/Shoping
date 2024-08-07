@@ -1,7 +1,7 @@
 from django.contrib import messages
 from django.db.models.expressions import F
 
-from .models import Order, OrderItem
+from .models import Order
 from .forms import OrderItemForm
 
 class Cart:
@@ -22,43 +22,41 @@ class Cart:
         if form.is_valid():
             cleaned_data = form.cleaned_data
             orderitem = self.order.items.filter(product_id=cleaned_data['product'].id)
-            if orderitem.exists() :
-                self.add(cleaned_data['product'], cleaned_data['quantity'])
+            if orderitem.exists():
+                orderitem.update(quantity=cleaned_data['quantity'])
+                messages.success(self.request, 'Your order is Update.')
             else:
                 order_obj = form.save(commit=False)
                 order_obj.order = self.order
                 order_obj.save()
-                messages.success(self.request, 'Your order is submit')
-            return True
-        return False
+                messages.success(self.request, 'Your order is submitted.')
+            return
+        messages.error(self.request, 'Your order is not submit')
             
-    def remove(self, product):
-        orderitem = self.order.items.get(product_id=product.id)
+    def remove(self, id:int):
+        orderitem = self.order.items.get(product_id=id)
         orderitem.delete()
-        messages.success(self.request, 'Your product delete from the cart.')
+        messages.success(self.request, 'Your product is deleted from the cart.')
         
-    def add(self, product, quantity=1):
-        orderitem = self.order.items.get(product_id=product.id)
+    def add(self, id:int, quantity:int =1):
+        orderitem = self.order.items.get(product_id=id)
         orderitem.quantity += quantity
         orderitem.save()
-        messages.success(self.request, 'Your cart is update.')
-
-    def show(self):
-        return self.order.items.select_related('product', 'order').annotate(total_price_product = F('unit_price') * F('quantity'))
+        messages.success(self.request, 'Your cart is updated.')
             
     def paid(self):
         self.order.status = 'p'
         self.order.save()
-        messages.success(self.request, 'Your cart is paied.')
-        
+        messages.success(self.request, 'Your cart is paid.')
         
     def cancel(self):
         self.order.status = 'c'
         self.order.save()
         messages.success(self.request, 'Your cart is canceled.')
         
+    def __iter__(self):
+        for item in self.order.items.select_related('product', 'order').annotate(total_price_product=F('unit_price') * F('quantity')):
+            yield item
+    
     def __len__(self):
-        return sum([item.quantity for item in self.order.items.all()])
-        
-            
-        
+        return sum(item.quantity for item in self.order.items.all())
