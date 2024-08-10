@@ -17,11 +17,6 @@
               <li class="nav-item submenu dropdown {% if 'store/' in request.path %} active {% endif %}">
                 <a href="{% url 'store:products' %}" class="nav-link dropdown-toggle" data-toggle="dropdown-menu" role="button" aria-haspopup="true"
                   aria-expanded="false">Shop</a>
-                <ul class="dropdown-menu">
-                  <li class="nav-item"><a class="nav-link" href="checkout.html">Product Checkout</a></li>
-                  <li class="nav-item"><a class="nav-link" href="confirmation.html">Confirmation</a></li>
-                  <li class="nav-item"><a class="nav-link" href="cart.html">Shopping Cart</a></li>
-                </ul>
 							</li>
               <li class="nav-item submenu dropdown {% if 'blog/' in request.path %} active {% endif %}">
                 <a href="{% url 'blog:blogs' %}" class="nav-link dropdown-toggle" data-toggle="dropdown-menu" role="button" aria-haspopup="true"
@@ -48,7 +43,7 @@
               
                 <li class="nav-item">
                   <a href="{% url 'cart:cart-detail' %}" style="background: none; border: none;">
-                  <button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{ cart|length }}</span></button>
+                  <button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{ cart.count }}</span></button>
                   </a>
                 </li>
             </ul>

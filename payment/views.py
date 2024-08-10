@@ -73,7 +73,7 @@ def payment_callback(request):
             elif  status == 101:
                 messages.success(request, 'your cart is paieded')
             
-            return redirect('payment:info-payment')
+            return redirect('payment:info-payment', ref_id)
         else:
             return HttpResponse('No payed')
     elif status == 'NOK':
@@ -84,6 +84,6 @@ def payment_callback(request):
         return HttpResponse('Unknow')
         
 
-def info_payment(request):
-    
-    return render(request, 'payment/confirmation.html')
+def info_payment(request, ref_id):
+    order = get_object_or_404(Order.objects.prefetch_related('items'), ref_id=ref_id)
+    return render(request, 'payment/confirmation.html', {'order': order})

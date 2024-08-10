@@ -34,15 +34,15 @@
             <table class="order-rable">
               <tr>
                 <td>Order number</td>
-                <td>: {{ cart.order.ref_id }}</td>
+                <td>: {{ order.ref_id }}</td>
               </tr>
               <tr>
                 <td>Date</td>
-                <td>: {{ cart.order.datetime_modifild|date:"M d, Y" }}</td>
+                <td>: {{ order.datetime_modifild|date:"M d, Y" }}</td>
               </tr>
               <tr>
                 <td>Total</td>
-                <td>: USD {{ cart.order.get_total_price }}</td>
+                <td>: USD {{ order.get_total_price }}</td>
               </tr>
               <tr>
                 <td>Payment method</td>
@@ -64,7 +64,7 @@
               </tr>
             </thead>
             <tbody>
-                {% for item in cart.show %}
+                {% for item in order.items.all %}
               <tr>
                 <td>
                   <p>{{ item.product.name }}</p>
@@ -85,7 +85,7 @@
                   <h5></h5>
                 </td>
                 <td>
-                  <h4>${{ cart.order.get_total_price }}</h4>
+                  <h4>${{ order.get_total_price }}</h4>
                 </td>
               </tr>
             </tbody>
