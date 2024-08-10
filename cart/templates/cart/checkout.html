@@ -83,7 +83,7 @@
                         <h2>Your Order</h2>
                         <ul class="list">
                             <li><a href="{% url 'store:products' %}"><h4>Product <span>Total</span></h4></a></li>
-                            {% for item in cart.show %}
+                            {% for item in cart %}
                             <li><a href="{{ item.product.get_ab
                                 solute_url }}">{{ item.product }} <span class="middle m-1">x {{ item.quantity }}</span> <span class="last">${{ item.total_price_product }}</span></a></li>
                             {% endfor %}

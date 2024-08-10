@@ -1,5 +1,5 @@
 {% extends 'base.html' %}
-{% load static unicorn %}
+{% load static filters %}
 
 {% block title %}
     Products
@@ -24,9 +24,151 @@
     </section>
     <!-- ================ end banner area ================= -->
 
+    <!-- ================ category section start ================= -->
+    <section class="section-margin--small mb-5">
+        <div class="container">
+            <div class="row">
+                <div class="col-xl-3 col-lg-4 col-md-5">
+                    <div class="sidebar-categories">
+                        <div class="head">Browse Categories</div>
+                        <ul class="main-categories">
+                            <li class="common-filter">
+                                <form action="{% url 'store:products' %}" id="FormCategory">
+                                    <ul>
+                                        {% for category in categories %}
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="men"
+                                                                       name="category" value="{{ category }}" onclick="FormCategory.submit();"><label
+                                                for="men">{{ category.name }}<span> ({{ category.count_product }})</span></label></li>
+                                        {% endfor %}
+                                    </ul>
+                                </form>
+                            </li>
+                        </ul>
+                    </div>
+                    <div class="sidebar-filter">
+                        <div class="top-filter-head">Product Filters</div>
+                        <div class="common-filter">
+                            <div class="head">Brands</div>
+                            <form action="" id="FormBrand">
+                                <ul>
+                                    {% for brand in brands %}
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="apple"
+                                                                   name="brand" value="{{ brand }}" onclick="FormBrand.submit();"><label
+                                            for="apple">{{ brand.name }}<span> ({{ brand.count_product }})</span></label></li>
+                                    {% endfor %}
+                                </ul>
+                            </form>
+                        </div>
+                        <div class="common-filter">
+                            <div class="head">Color</div>
+                            <form action="" id="FormColor">
+                                <ul>
+                                    {% for color in colors %}
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="black"
+                                                                   name="color" value="{{ color }}" onclick="FormColor.submit();"><label
+                                            for="black">{{ color.name }}<span> ({{ color.count_product }})</span></label></li>
+                                    {% endfor %}
+                                </ul>
+                            </form>
+                        </div>
+                    </div>
+                </div>
+                <div class="col-xl-9 col-lg-8 col-md-7">
+                    <!-- Start Filter Bar -->
+                    <div class="filter-bar d-flex flex-wrap align-items-center">
+                        <div class="nice-select sorting mr-auto" tabindex="0">
+                            <span class="current">Sort Name</span>
+                            <ul class="list">
+                                {% for key, sort in sorts %}
+                                <li data-value="{{ key }}" class="option" aria-selected="true">Sort {{ sort }}</li>
+                                {% endfor %}
+                            </ul>
+                        </div>
+                        <div>
+                            <div class="input-group filter-bar-search">
+                                <input type="text" placeholder="Search" onclick="" name="search">
+                                <div class="input-group-append">
+                                    <button type="submit"><i class="ti-search"></i></button>
+                                </div>
+                            </div>
+                        </div>
+                    </div>
+                    <!-- End Filter Bar -->
+                    <!-- Start Best Seller -->
+                    <section class="lattest-product-area pb-40 category-list">
+                        <div class="row">
+                            {% for product in products %}
+                            <div class="col-md-6 col-lg-4">
+                                <div class="card text-center card-product">
+                                    <div class="card-product__img">
+                                        <img class="card-img" src="{% static 'img/product/product1.png' %}" alt="">
+                                    </div>
+                                    <div class="card-body">
+                                        <p>{{ product.category }}</p>
+                                        <h4 class="card-product__title"><a href="{{ product.get_absolute_url }}">{{ product.name }}</a></h4>
+                                        <p class="card-product__price">${{ product.price }}</p>
+                                    </div>
+                                </div>
+                            </div>
+                            {% endfor %}
+                        </div>
+                    </section>
+                    <!-- End Best Seller -->
+                        {% if page_obj.has_other_pages %}
+                            <nav class="blog-pagination justify-content-center d-flex">
+                                <ul class="pagination">
+                                    {% if page_obj.has_previous %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                                href="{% url 'store:products' %}?page={{ page_obj.previous_page_number }}"
+                                               aria-label="Previous">
+                                              <span aria-hidden="true">
+                                                  <i class="fa fa-arrow-left"></i>
+                                              </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                    {{ page_obj.num_pages }}
+                                    {% for i in page_obj.paginator.page_range %}
+                                        {% if i == page_obj.number %}
+                                        <li class="page-item active">
+                                            <a href="{% url 'store:products' %}?page={{ i }}"
+                                            class="page-link">{{ i }}</a>
+                                        </li>
+                                        {% elif page_obj.number|add:"-3" <= i and i <= page_obj.number|add:"3" %}
+                                        <li class="page-item">
+                                            <a href="{% url 'store:products' %}?page={{ i }}"
+                                            class="page-link" >{{ i }}</a>
+                                        </li>
+                                        {% elif i == page_obj.paginator.num_pages %}
+                                        <li class="page-item">
+                                            <a href="{% url 'store:products' %}?page={{ i }}"
+                                            class="page-link" >{{ i }}</a>
+                                        </li>
+                                        {% endif %}
+                                    {% endfor %}
+                                    {% if page_obj.has_next %}
+                                        <li class="page-item">
+                                            <a class="page-link"
+                                               href="{% url 'store:products' %}?page={{ page_obj.next_page_number }}"
+                                               aria-label="Next">
+                                              <span aria-hidden="true">
+                                                  <i class="fa fa-arrow-right"></i>
+                                              </span>
+                                            </a>
+                                        </li>
+                                    {% endif %}
+                                </ul>
+                            </nav>
+                        {% endif %} 
+                </div>
+            </div>
+        </div>
+    </section>
+    <!-- ================ category section end ================= -->
 
     <!-- ================ top product area start ================= -->
-    <section class="related-product-area">
+    {% comment %}<section class="related-product-area">
         <div class="container">
             <div class="section-intro pb-60px">
                 <p>Popular Item in the market</p>
@@ -138,7 +280,7 @@
                 </div>
             </div>
         </div>
-    </section>
+    </section>{% endcomment %}
     <!-- ================ top product area end ================= -->
 
     <!-- ================ Subscribe section start ================= -->

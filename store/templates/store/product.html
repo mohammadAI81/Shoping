@@ -61,13 +61,14 @@
 							something that can make your interior look awesome, and at the same time give you the pleasant warm feeling
 							during the winter.</p>
 						<div class="product_count">
-							<form action="{% url 'cart:add-to-cart' %}" method="POST">
+							<form action="{% url 'cart:add-to-cart' %}" method="POST" id="CartProduct">
 								{% csrf_token %}
 								<input type="hidden" name="unit_price" value="{{ product.price }}">
 								<input type="hidden" name="product" value="{{ product.id }}">
 								<label for="sst">Quantity:</label>
 								<input type="text" name="quantity" id="sst" size="2" maxlength="12" value="1" title="Quantity:" class="input-text qty">
-								<input class="button primary-btn" type="submit" value="Add to Cart">
+								<a class="button primary-btn" onclick="CartProduct.submit();" style="color: black; cursor: pointer;">Add to Cart</a>
+								<!-- <input class="button primary-btn" type="submit" value="Add to Cart"> -->
 							</form>
 						</div>
 						<div class=" d-flex align-items-center">

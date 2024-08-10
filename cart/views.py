@@ -8,6 +8,7 @@ from .models import Order
 from .cart import Cart
 from .forms import OrderForm
 
+
 def cart_detail(request):
     cart = Cart(request)
     return render(request, 'cart/cart.html', {'cart': cart})
@@ -17,10 +18,12 @@ def checkout_detail(request):
     cart = Cart(request)
     return render(request, 'cart/checkout.html', {'cart': cart})
 
+
 def cart_remove(request, product_id):
     cart = Cart(request)
     cart.remove(product_id)
     return redirect('cart:cart-detail')
+
 
 @require_POST
 @login_required(login_url='/account/login/')
@@ -29,6 +32,7 @@ def add_to_cart(request):
     cart.add_order_item()
         
     return redirect('store:products')
+
 
 @require_POST
 @login_required(login_url='/account/login/')
