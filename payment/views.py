@@ -61,6 +61,7 @@ def payment_callback(request):
         
         req = requests.post(url=zarinpall_verify_url, data=json.dumps(request_data), headers=request_headers)
         data = req.json()
+        print(data)
         
         if 'errors' not in data:
             status = data.get('Status')

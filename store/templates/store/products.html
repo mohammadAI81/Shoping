@@ -14,7 +14,7 @@
                     <h1>Shop Category</h1>
                     <nav aria-label="breadcrumb" class="banner-breadcrumb">
                         <ol class="breadcrumb">
-                            <li class="breadcrumb-item"><a href="#">Home</a></li>
+                            <li class="breadcrumb-item"><a href="{% url 'page:home' %}">Home</a></li>
                             <li class="breadcrumb-item active" aria-current="page">Shop Category</li>
                         </ol>
                     </nav>
@@ -33,12 +33,17 @@
                         <div class="head">Browse Categories</div>
                         <ul class="main-categories">
                             <li class="common-filter">
-                                <form action="{% url 'store:products' %}" id="FormCategory">
+                                <form action="" id="Form">
                                     <ul>
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="all"
+                                                                       name="category" value="0" onclick="Form.submit();"
+                                                                       form="Form" {% if values.category == '0' or values.category not in values  %} checked {% endif %}><label
+                                                for="all">All</label></li>
                                         {% for category in categories %}
-                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="men"
-                                                                       name="category" value="{{ category }}" onclick="FormCategory.submit();"><label
-                                                for="men">{{ category.name }}<span> ({{ category.count_product }})</span></label></li>
+                                        <li class="filter-list"><input class="pixel-radio" type="radio" id="{{ category.name }}"
+                                                                       name="category" value="{{ category.id }}" onclick="Form.submit();"
+                                                                       form="Form" {% if values.category == category.id|stringformat:'s' %} checked {% endif %}><label
+                                                for="{{ category.name }}">{{ category.name }}<span> ({{ category.count_product }})</span></label></li>
                                         {% endfor %}
                                     </ul>
                                 </form>
@@ -49,27 +54,33 @@
                         <div class="top-filter-head">Product Filters</div>
                         <div class="common-filter">
                             <div class="head">Brands</div>
-                            <form action="" id="FormBrand">
                                 <ul>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="all"
+                                                                   name="brand" value="0" onclick="Form.submit();"
+                                                                   form="Form" {% if values.brand == '0' or values.brand not in values %} checked {% endif %}><label
+                                            for="all">All</label></li>
                                     {% for brand in brands %}
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="apple"
-                                                                   name="brand" value="{{ brand }}" onclick="FormBrand.submit();"><label
-                                            for="apple">{{ brand.name }}<span> ({{ brand.count_product }})</span></label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="{{ brand.name }}"
+                                                                   name="brand" value="{{ brand.id }}" onclick="Form.submit();"
+                                                                   form="Form" {% if values.brand == brand.id|stringformat:'s' %} checked {% endif %}><label
+                                            for="{{ brand.name }}">{{ brand.name }}<span> ({{ brand.count_product }})</span></label></li>
                                     {% endfor %}
                                 </ul>
-                            </form>
                         </div>
                         <div class="common-filter">
                             <div class="head">Color</div>
-                            <form action="" id="FormColor">
                                 <ul>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="all"
+                                                                   name="color" value="0" onclick="Form.submit();"
+                                                                   form="Form" {% if values.color == '0' or values.color not in values %} checked {% endif %}><label
+                                            for="all">All</label></li>
                                     {% for color in colors %}
-                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="black"
-                                                                   name="color" value="{{ color }}" onclick="FormColor.submit();"><label
-                                            for="black">{{ color.name }}<span> ({{ color.count_product }})</span></label></li>
+                                    <li class="filter-list"><input class="pixel-radio" type="radio" id="{{ color.name }}"
+                                                                   name="color" value="{{ color.id }}" onclick="Form.submit();"
+                                                                   form="Form" {% if values.color == color.id|stringformat:'s' %} checked {% endif %}><label
+                                            for="{{ color.name }}">{{ color.name }}<span> ({{ color.count_product }})</span></label></li>
                                     {% endfor %}
                                 </ul>
-                            </form>
                         </div>
                     </div>
                 </div>
@@ -77,19 +88,23 @@
                     <!-- Start Filter Bar -->
                     <div class="filter-bar d-flex flex-wrap align-items-center">
                         <div class="nice-select sorting mr-auto" tabindex="0">
-                            <span class="current">Sort Name</span>
+                            <span class="current">{% if values.sort %}Sort {{ values.sort }} {% else %} Sort Name {% endif %}</span>
                             <ul class="list">
                                 {% for key, sort in sorts %}
-                                <li data-value="{{ key }}" class="option" aria-selected="true">Sort {{ sort }}</li>
+                                <li class="option">
+                                    <input type="submit" value="{{ key }}" form="Form" name="sort">
+                                </li>
                                 {% endfor %}
                             </ul>
                         </div>
                         <div>
                             <div class="input-group filter-bar-search">
-                                <input type="text" placeholder="Search" onclick="" name="search">
-                                <div class="input-group-append">
-                                    <button type="submit"><i class="ti-search"></i></button>
-                                </div>
+                                <form action="{% url 'store:products' %}" id="Search">
+                                    <input type="text" placeholder="Search" name="search" value="{{ values.search }}"> 
+                                    <div class="input-group-append" style="display: inline;">
+                                        <button type="submit" form="Search"><i class="ti-search"></i></button>
+                                    </div>
+                                </form>
                             </div>
                         </div>
                     </div>
@@ -128,7 +143,6 @@
                                             </a>
                                         </li>
                                     {% endif %}
-                                    {{ page_obj.num_pages }}
                                     {% for i in page_obj.paginator.page_range %}
                                         {% if i == page_obj.number %}
                                         <li class="page-item active">

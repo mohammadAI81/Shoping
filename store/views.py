@@ -2,7 +2,7 @@ from django.shortcuts import render, redirect
 from django.views.generic import DetailView
 from django.contrib.auth.decorators import login_required
 from django.contrib import messages
-from django.db.models.aggregates import Count
+from django.db.models import Count, Q
 from django.utils.html import format_html
 from django.core.paginator import Paginator
 
@@ -12,16 +12,36 @@ from .variable import SORT
 
 
 def list_product_category(request):
+    
+    # Get data from database
     queryset_categories = Category.objects.annotate(count_product=Count('products'))
     queryset_brands = Brand.objects.annotate(count_product=Count('products'))
     queryset_colors = Color.objects.annotate(count_product=Count('products'))
     queryset_products = Product.objects.select_related('category').order_by('name').only('name', 'category', 'price', 'slug')
     
     
+    # Filter Product
+    Q_obj = Q()
+    if brand:= request.GET.get('brand'):
+        if brand != '0':
+            Q_obj &= Q(brand_id=brand)
+    if color:= request.GET.get('color'):
+        if color != '0':
+            Q_obj &= Q(color_id=color)
+    if category:= request.GET.get('category'):
+        if category != '0':
+            Q_obj &= Q(category_id=category)
+    if search:= request.GET.get('search'):
+        Q_obj &= Q(name__icontains=search)
+    queryset_products = queryset_products.filter(Q_obj)
+    if sort:= request.GET.get('sort'):
+        queryset_products = queryset_products.order_by(sort)
     
+    # Paginator
     page = request.GET.get('page')
     paginator = Paginator(queryset_products, 9)
     page_obj = paginator.get_page(number=page)
+
 
     context = {
         'categories': queryset_categories,
@@ -30,6 +50,7 @@ def list_product_category(request):
         'products': page_obj.object_list,
         'page_obj': page_obj,
         'sorts': SORT,
+        'values': request.GET,
         
     }
     return render(request, 'store/products.html', context)

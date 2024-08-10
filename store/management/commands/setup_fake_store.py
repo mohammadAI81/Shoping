@@ -12,8 +12,8 @@ faker = Faker()
 list_of_model = [Product, Brand, Category, Comment, Color]
 
 NUM_CATEGORY = 10
-NUM_BRANC = 10
-NUM_COLOR = 10
+NUM_BRANC = 5
+NUM_COLOR = 5
 NUM_PRODUCT = 300
 
 class Command(BaseCommand):
