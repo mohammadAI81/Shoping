@@ -39,7 +39,6 @@ def blogs(request):
 def detail_blog(request, slug):
     blogs = Blog.object_published.annotate(count_comments=Count('comments'))
 
-
     # Popular Posts
     comments_count = max([blog['count_comments'] for blog in blogs.values('count_comments')]) // 2
     popular_posts = blogs.filter(count_comments__gte=comments_count).order_by('-count_comments')[:4]
@@ -58,6 +57,7 @@ def detail_blog(request, slug):
         }
     return render(request, 'blog/blog.html', context)
 
+
 @require_POST
 def create_comment(request, slug):
     form = CommentForm(request.POST)
@@ -67,7 +67,8 @@ def create_comment(request, slug):
     else:
         messages.error(request, format_html('Your comment is not submit {}'.format(form.errors)))
     return redirect('blog:blog', slug)
-        
+
+
 @require_POST
 def create_reply_comment(request, slug):
     form = ReplyForm(request.POST)

@@ -56,7 +56,8 @@ class Cart:
         messages.success(self.request, 'Your cart is canceled.')
         
     def __iter__(self):
-        for item in self.order.items.select_related('product', 'order').annotate(total_price_product=F('unit_price') * F('quantity')):
+        for item in self.order.items.select_related('product', 'order').\
+                annotate(total_price_product=F('unit_price') * F('quantity')):
             yield item
     
     def __len__(self):

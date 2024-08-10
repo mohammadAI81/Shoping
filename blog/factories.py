@@ -3,6 +3,7 @@ from factory.django import DjangoModelFactory
 
 from .models import Comment, Blog, Reply
 
+
 class CommentFactory(DjangoModelFactory):
     class Meta:
         model = Comment

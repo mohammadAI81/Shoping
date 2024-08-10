@@ -14,6 +14,7 @@ list_of_model = [Comment, Blog]
 NUM_BLOG = 400
 faker = Faker()
 
+
 class Command(BaseCommand):
     help = 'Generate date of blog'
     

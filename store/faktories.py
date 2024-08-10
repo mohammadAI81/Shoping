@@ -37,6 +37,7 @@ class ColorFactory(DjangoModelFactory):
         
     name = factory.Faker('color')
 
+
 class CommentFactory(DjangoModelFactory):
     class Meta:
         model = models.Comment
@@ -50,7 +51,6 @@ class CommentFactory(DjangoModelFactory):
 class ProductFactory(DjangoModelFactory):
     class Meta:
         model = models.Product
-    
 
     name = factory.LazyAttribute(lambda x: ' '.join([x.capitalize() for x in faker.words(3)]))
     description = factory.Faker('paragraph', nb_sentences=1, variable_nb_sentences=False)

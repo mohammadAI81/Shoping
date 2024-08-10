@@ -24,7 +24,7 @@ def payment_process(request):
         'Description': f'# {order.id}: {order.name.username}',
         'CallbackURL': 'http://127.0.0.1:8000' + reverse('payment:callback')
     }
-    
+
     zarinpall_url = 'https://sandbox.zarinpal.com/pg/rest/WebGate/PaymentRequest.json'
     req = requests.post(url=zarinpall_url, data=json.dumps(request_data), headers=request_header)
     
@@ -70,9 +70,9 @@ def payment_callback(request):
                 order.ref_id = ref_id
                 # order.status = 'p'
                 order.save()
-                messages.success(request, 'carti is paid')
-            elif  status == 101:
-                messages.success(request, 'your cart is paieded')
+                messages.success(request, 'cart is paid')
+            elif status == 101:
+                messages.success(request, 'your cart is payed')
             
             return redirect('payment:info-payment', ref_id)
         else:

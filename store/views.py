@@ -18,30 +18,28 @@ def list_product_category(request):
     queryset_brands = Brand.objects.annotate(count_product=Count('products'))
     queryset_colors = Color.objects.annotate(count_product=Count('products'))
     queryset_products = Product.objects.select_related('category').order_by('name').only('name', 'category', 'price', 'slug')
-    
-    
+
     # Filter Product
     Q_obj = Q()
-    if brand:= request.GET.get('brand'):
+    if brand := request.GET.get('brand'):
         if brand != '0':
             Q_obj &= Q(brand_id=brand)
-    if color:= request.GET.get('color'):
+    if color := request.GET.get('color'):
         if color != '0':
             Q_obj &= Q(color_id=color)
-    if category:= request.GET.get('category'):
+    if category := request.GET.get('category'):
         if category != '0':
             Q_obj &= Q(category_id=category)
-    if search:= request.GET.get('search'):
+    if search := request.GET.get('search'):
         Q_obj &= Q(name__icontains=search)
     queryset_products = queryset_products.filter(Q_obj)
-    if sort:= request.GET.get('sort'):
+    if sort := request.GET.get('sort'):
         queryset_products = queryset_products.order_by(sort)
     
     # Paginator
     page = request.GET.get('page')
     paginator = Paginator(queryset_products, 9)
     page_obj = paginator.get_page(number=page)
-
 
     context = {
         'categories': queryset_categories,
