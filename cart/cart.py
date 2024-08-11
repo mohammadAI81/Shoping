@@ -11,7 +11,7 @@ class Cart:
         self.request = request
         
         user = self.request.user
-        order = user.orders.filter(status='u').prefetch_related('items').first()
+        order = user.orders.filter(status='u').prefetch_related('items').only('name').first()
         
         if not order:
             order = Order.objects.create(name=user)
@@ -56,8 +56,9 @@ class Cart:
         messages.success(self.request, 'Your cart is canceled.')
         
     def __iter__(self):
-        for item in self.order.items.select_related('product', 'order').\
-                annotate(total_price_product=F('unit_price') * F('quantity')):
+        for item in self.order.items.select_related('product', 'order') \
+                .only('unit_price', 'product__name', 'quantity', 'order__id') \
+                .annotate(total_price_product=F('unit_price') * F('quantity')):
             yield item
     
     def __len__(self):

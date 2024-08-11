@@ -36,8 +36,8 @@ class Signup(SuccessMessageMixin, CreateView):
     model = get_user_model()
     template_name = 'registration/signup.html'
     form_class = SignupForm
-    success_url = reverse_lazy('store:products')
-    success_message = 'Your Are Login'
+    success_url = reverse_lazy('account:login')
+    success_message = 'Your Are Register'
     
     def form_invalid(self, form):
         messages.error(self.request, 'Sorry, you are not registered on the site')

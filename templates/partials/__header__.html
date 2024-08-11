@@ -34,7 +34,7 @@
                   <li class="nav-item"><a class="nav-link" href="{% url 'login' %}">Login</a></li>
                   <li class="nav-item"><a class="nav-link" href="{% url 'account:signup' %}">Sign Up</a></li>
                   {% endif %}
-                  <li class="nav-item"><a class="nav-link" href="tracking-order.html">Tracking</a></li>
+                  <li class="nav-item"><a class="nav-link" href="{% url 'cart:tracking' %}">Tracking</a></li>
                 </ul>
               </li>
             </ul>
@@ -43,7 +43,7 @@
               
                 <li class="nav-item">
                   <a href="{% url 'cart:cart-detail' %}" style="background: none; border: none;">
-                  <button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{ cart.count }}</span></button>
+                  <button><i class="ti-shopping-cart"></i><span class="nav-shop__circle">{{ count_quantity }}</span></button>
                   </a>
                 </li>
             </ul>

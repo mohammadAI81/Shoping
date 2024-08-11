@@ -56,7 +56,7 @@ def checkout_paid(request, id):
         
 def tracking(request):
     if request.method == 'POST':
-        ref_if = request.POST['ref_if']
+        ref_if = request.POST['order']
         email = request.POST['email']
         get_object_or_404(get_user_model(), email=email)
         return redirect('payment:info-payment', ref_if)

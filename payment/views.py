@@ -2,11 +2,12 @@ from django.shortcuts import redirect, get_object_or_404, render
 from django.urls import reverse
 from django.http import HttpResponseBadRequest, HttpResponse
 from django.contrib import messages
+from django.db.models import Prefetch, F
 
 import requests
 import json
     
-from cart.models import Order   
+from cart.models import Order, OrderItem   
 
 
 def payment_process(request):
@@ -68,7 +69,7 @@ def payment_callback(request):
             ref_id = data.get('RefID')
             if status == 100:
                 order.ref_id = ref_id
-                # order.status = 'p'
+                order.status = 'p'
                 order.save()
                 messages.success(request, 'cart is paid')
             elif status == 101:
@@ -86,5 +87,9 @@ def payment_callback(request):
         
 
 def info_payment(request, ref_id):
-    order = get_object_or_404(Order.objects.prefetch_related('items'), ref_id=ref_id)
+    order = get_object_or_404(Order.objects.prefetch_related(Prefetch(
+                                                    'items',
+                                                    queryset=OrderItem.objects.select_related('product') \
+                                                        .annotate(total_price_product=F('unit_price') * F('quantity'))
+                                                    )), ref_id=ref_id)
     return render(request, 'payment/confirmation.html', {'order': order})

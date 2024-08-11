@@ -62,7 +62,7 @@ def detail_blog(request, slug):
 def create_comment(request, slug):
     form = CommentForm(request.POST)
     if form.is_valid():
-        # form.save()
+        form.save()
         messages.success(request, 'Your comment is submit.')
     else:
         messages.error(request, format_html('Your comment is not submit {}'.format(form.errors)))
