@@ -36,7 +36,7 @@ class Color(models.Model):
 class Product(models.Model):
     name = models.CharField(max_length=255)
     description = models.TextField()
-    # image = models.ImageField(upload_to='/cover/product/')
+    image = models.ImageField(upload_to='cover/product/')
     slug = models.SlugField(blank=True, null=True)
     inventory = models.IntegerField()
     price = models.DecimalField(max_digits=6, decimal_places=2)

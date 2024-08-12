@@ -19,6 +19,7 @@ class Blog(models.Model):
     slug = models.SlugField(max_length=200)
     description = models.TextField()
     published = models.BooleanField(default=True)
+    image = models.ImageField(upload_to='cover/blog/%Y/', blank=True)
 
     datetime_created = models.DateTimeField(auto_now_add=True, editable=True)
     datetime_modified = models.DateTimeField(auto_now=True, editable=True)

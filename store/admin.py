@@ -61,6 +61,7 @@ class ProductAdmin(admin.ModelAdmin):
         (None, {'fields': ['name', 'description', 'inventory', 'price', 'slug',
                            'availability', 'width', 'height', 'weight', 'brand',
                            'color', 'category', 'discount', 'discount_price']}),
+        ('Image', {'fields': ['image']}),
     )
     inlines = [
         CommentProduct,

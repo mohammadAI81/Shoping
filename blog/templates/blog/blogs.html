@@ -58,7 +58,11 @@
                         </div>
                         <div class="col-md-9">
                             <div class="blog_post">
+                                {% if blog.image %}
+                                <img src="{{ blog.image.url }}" 
+                                {% else %}
                                 <img src="{% static 'img/blog/main-blog/m-blog-2.jpg' %}" 
+                                {% endif %}
                                 alt="image"
                                 style="border-radius: 5px;">
                                 <div class="blog_details">

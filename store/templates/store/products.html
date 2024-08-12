@@ -116,7 +116,11 @@
                             <div class="col-md-6 col-lg-4">
                                 <div class="card text-center card-product">
                                     <div class="card-product__img">
+                                        {% if product.image %}
+                                        <img class="card-img" src="{{ product.image.url }}" alt="">
+                                        {% else %}
                                         <img class="card-img" src="{% static 'img/product/product1.png' %}" alt="">
+                                        {% endif %}
                                     </div>
                                     <div class="card-body">
                                         <p>{{ product.category }}</p>
