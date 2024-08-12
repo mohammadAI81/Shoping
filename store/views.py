@@ -5,6 +5,7 @@ from django.contrib import messages
 from django.db.models import Count, Q
 from django.utils.html import format_html
 from django.core.paginator import Paginator
+from django.utils.decorators import method_decorator
 
 from .models import Comment, Product, Category, Brand, Color
 from .forms import CommentForm
@@ -92,7 +93,7 @@ class DetailProduct(DetailView):
 
         return context
 
-    @login_required(login_url='/account/login/')
+    @method_decorator(login_required(login_url='/account/login/'))
     def post(self, request, *args, **kwargs):
         product = self.get_object()
         user = request.user

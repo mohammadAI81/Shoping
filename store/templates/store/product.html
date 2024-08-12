@@ -186,7 +186,6 @@
 										<div class="media-body">
 											<h4>{{ comment.author.username|title }}</h4>
 											<h5>{{ comment.datetime_created|date:'jS M, Y \a\t f A' }}</h5>
-											<a class="reply_btn" href="#">Reply</a>
 										</div>
 									</div>
 									<p>{{ comment.body|linebreaks }}</p>
@@ -252,9 +251,7 @@
 											{% endfor %}
 										</div>
 									</div>
-									<p>Lorem ipsum dolor sit amet, consectetur adipisicing elit, sed do eiusmod tempor incididunt ut labore et
-										dolore magna aliqua. Ut enim ad minim veniam, quis nostrud exercitation ullamco laboris nisi ut aliquip ex ea
-										commodo</p>
+									<p>{{ comment.body|linebreaks}}</p>
 								</div>
 								{% empty %}
 								<h3>Do't have reviews</h3>
