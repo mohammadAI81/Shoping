@@ -4,11 +4,9 @@ verify_ssl = true
 name = "pypi"
 
 [packages]
-django = "*"
 django-debug-toolbar = "*"
 mysqlclient = "*"
 django-unicorn = "*"
-faker = "*"
 factory-boy = "*"
 requests = "*"
 pillow = "*"

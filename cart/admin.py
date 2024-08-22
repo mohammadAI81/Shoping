@@ -1,8 +1,5 @@
-from typing import Any
 from django.db.models import Count
 from django.contrib import admin
-from django.db.models.query import QuerySet
-from django.http import HttpRequest
 
 from .models import Order, OrderItem
 
