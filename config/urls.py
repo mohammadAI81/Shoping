@@ -29,8 +29,10 @@ urlpatterns = [
     path('cart/', include('cart.urls')),
     path('store/', include('store.urls')),
     path('payment/', include('payment.urls')),
-    path('account/', include('account.urls')),
-    path('account/', include('django.contrib.auth.urls')),
+    path('accountss/', include('accountss.urls')),
+    path('accountss/', include('django.contrib.auth.urls')),
+    
+    path('accounts/', include('allauth.urls')),
     
     path('unicorn/', include('django_unicorn.urls')),
     path("__debug__/", include("debug_toolbar.urls")),
